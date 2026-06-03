@@ -1,0 +1,30 @@
+[
+    {
+        "VirusTotal analysis time": ">> 04.06.2026_00:57:13 <<",
+        "Client action time": "2026-01-24 20:06:11.102958",
+        "Client IP address": "5.143.105.91",
+        "IP address status malicious count": 0,
+        "IP address status suspicious count": 0,
+        "IP address status undetected count": 91,
+        "IP address status harmless count": 0,
+        "Client uploaded file digest": "DB391E1E73931CFCE48330FAAB2EBB0DB3833AF11B92462CAD5EBAD256376414",
+        "File digest status malicious count": 1,
+        "File digest status suspicious count": 0,
+        "File digest status undetected count": 68,
+        "File digest status harmless count": 0
+    },
+    {
+        "VirusTotal analysis time": ">> 04.06.2026_00:57:15 <<",
+        "Client action time": "2026-02-25 20:49:01.777777",
+        "Client IP address": "5.143.105.91",
+        "IP address status malicious count": 0,
+        "IP address status suspicious count": 0,
+        "IP address status undetected count": 91,
+        "IP address status harmless count": 0,
+        "Client uploaded file digest": "bcbe1e4c406a4e14aea4e61e385ca63da25e0f734e874383af79984275014c34",
+        "File digest status malicious count": 0,
+        "File digest status suspicious count": 0,
+        "File digest status undetected count": 63,
+        "File digest status harmless count": 0
+    }
+]

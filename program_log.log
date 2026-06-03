@@ -1,0 +1,16 @@
+2026-06-04 00:22:08,870 - ProgramLogger - INFO - Program started
+2026-06-04 00:22:08,870 - ProgramLogger - INFO - Started scanning on VirusTotal
+2026-06-04 00:22:16,011 - ProgramLogger - INFO - Scanning is successful
+2026-06-04 00:22:16,012 - ProgramLogger - INFO - CSV report generated
+2026-06-04 00:57:11,032 - ProgramLogger - INFO - Program started
+2026-06-04 00:57:11,032 - ProgramLogger - INFO - Started scanning on VirusTotal
+2026-06-04 00:57:15,378 - ProgramLogger - INFO - Scanning is successful
+2026-06-04 00:57:15,378 - ProgramLogger - INFO - JSON report generated
+2026-06-04 00:57:15,378 - ProgramLogger - INFO - Program started
+2026-06-04 00:57:15,378 - ProgramLogger - INFO - Program started
+2026-06-04 00:57:15,378 - ProgramLogger - INFO - Started scanning on VirusTotal
+2026-06-04 00:57:15,378 - ProgramLogger - INFO - Started scanning on VirusTotal
+2026-06-04 00:57:23,203 - ProgramLogger - INFO - Scanning is successful
+2026-06-04 00:57:23,203 - ProgramLogger - INFO - Scanning is successful
+2026-06-04 00:57:23,204 - ProgramLogger - INFO - JSON report generated
+2026-06-04 00:57:23,204 - ProgramLogger - INFO - JSON report generated
