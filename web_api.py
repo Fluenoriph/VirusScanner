@@ -30,6 +30,3 @@ def handle_file_upload():
         return jsonify(scaner_app.result)
 
     return None
-
-
-app.run(debug=True)

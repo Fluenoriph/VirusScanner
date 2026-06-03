@@ -1,3 +1,0 @@
-VirusTotal analysis time,Client action time,Client IP address,IP address status malicious count,IP address status suspicious count,IP address status undetected count,IP address status harmless count,Client uploaded file digest,File digest status malicious count,File digest status suspicious count,File digest status undetected count,File digest status harmless count
->> 26.02.2026_02:09:30 <<,2026-01-24 20:06:11.102958,5.143.105.91,0,0,93,0,DB391E1E73931CFCE48330FAAB2EBB0DB3833AF11B92462CAD5EBAD256376414,1,0,71,0
->> 26.02.2026_02:09:32 <<,2026-02-25 20:49:01.777777,5.143.105.91,0,0,93,0,bcbe1e4c406a4e14aea4e61e385ca63da25e0f734e874383af79984275014c34,0,0,63,0
