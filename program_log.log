@@ -14,3 +14,7 @@
 2026-06-04 00:57:23,203 - ProgramLogger - INFO - Scanning is successful
 2026-06-04 00:57:23,204 - ProgramLogger - INFO - JSON report generated
 2026-06-04 00:57:23,204 - ProgramLogger - INFO - JSON report generated
+2026-06-04 01:08:42,467 - ProgramLogger - INFO - Program started
+2026-06-04 01:08:42,468 - ProgramLogger - INFO - Started scanning on VirusTotal
+2026-06-04 01:08:45,538 - ProgramLogger - INFO - Scanning is successful
+2026-06-04 01:08:45,538 - ProgramLogger - INFO - JSON report generated
