@@ -7,11 +7,46 @@
 """
 
 import platform
-import os.path
+import os
 import sys
-import glob
-from modules.argument_parser import ArgumentParser
-from modules.program_process import ProgramProcess
+from typing import Annotated
+import typer
+#from modules.argument_parser import ArgumentParser
+#from modules.program_process import ProgramProcess
+from modules.base_report_generator import BaseReportGenerator
+
+
+class VirusScannerCLI:
+    APP = typer.Typer()
+    PROGRAM_DIRECTORY = os.getcwd() # ???
+
+    def __init__(self):
+        VirusScannerCLI.APP()
+
+    @staticmethod
+    @APP.command()
+    def analyse_the_data(data_to_analyse: str, virus_total_api_key: str,
+                         output_path: Annotated[str, typer.Argument()] = PROGRAM_DIRECTORY,
+                         report_format: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[2]):
+
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Возможно это будет классом.
 argument_parser = ArgumentParser()
@@ -23,6 +58,8 @@ if os.path.isfile(argument_parser.arguments.logfile):
                          argument_parser.arguments.format)
 
 elif os.path.isdir(argument_parser.arguments.logfile):
+
+
     match platform.system():
         case "Linux":
             SLASH = '/'

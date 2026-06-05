@@ -22,6 +22,10 @@ class ProgramProcess:
         virus_analyzer = VirusTotalChecker(api_key, source_log_parser.matched_data, logger.logger)
         self._result = virus_analyzer.checks_result
 
+
+
+
+
         if result_log_format == 'csv':
             csv_report = CsvReportGenerator(self.result, result_log_path)
             csv_report.generate()
