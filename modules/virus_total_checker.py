@@ -7,6 +7,7 @@ from modules.real_time import CurrentTime
 
 class VirusTotalChecker:
     API_URL = 'https://www.virustotal.com/api/v3/'
+
     IP_ANALYS_ENDPOINT = 'ip_addresses/'
     FILE_DIGEST_ANALYS_ENDPOINT = 'files/'
     ANALYSIS_STATUS = ("malicious", "suspicious", "undetected", "harmless")
@@ -60,6 +61,9 @@ class VirusTotalChecker:
             result[f"{VirusTotalChecker.ANALYSIS_OBJECT[1]} status"] = 'Not exist in VirusTotal base'
 
         return result
+
+
+
 
     def get_response(self, endpoint_type, log_data_type):
         response = requests.get(f'{VirusTotalChecker.API_URL}{endpoint_type}{log_data_type}', headers=self.headers)
