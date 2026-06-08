@@ -1,7 +1,7 @@
 import os
 import requests
 
-
+'''
 API_URL = "https://www.virustotal.com/api/v3/"
 
 
@@ -19,3 +19,9 @@ result_url = API_URL + 'analyses/' + URL_ANALYSIS_ID
 result_response = requests.get(result_url, headers=headers)
 
 print(result_response.text)
+'''
+
+
+data = {'data': {'type': 'analysis', 'id': 'ZjMyODMyOTcyN2E3YWM1OGU0MjlhZGFiYTllMWM2MDY6MTc4MDkyMTg5NA==', 'links': {'self': 'https://www.virustotal.com/api/v3/analyses/ZjMyODMyOTcyN2E3YWM1OGU0MjlhZGFiYTllMWM2MDY6MTc4MDkyMTg5NA=='}}}
+
+print(data['data']['links']['self'])
