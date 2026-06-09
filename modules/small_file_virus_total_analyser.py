@@ -16,12 +16,14 @@ class SmallFileVirusTotalAnalyser(UrlVirusTotalAnalyser):
             files = { 'file': (self.data, file) }
 
             # if 200 or 400 ??
-            return requests.post(BaseVirusTotalAnalyser.API_URL + self.endpoint, headers=self.headers, files=files)
+            re = requests.post(BaseVirusTotalAnalyser.API_URL + self.endpoint, headers=self.headers, files=files)
+
+        return re
 
 
 load_dotenv()
 
-file_scanner = SmallFileVirusTotalAnalyser(os.getenv('API_KEY'), '/files', '/home/ripher12/certificate_ru.pdf')
+file_scanner = SmallFileVirusTotalAnalyser(os.getenv('API_KEY'), '/files', '/home/ripher12/vid.mp4')
 
 result = file_scanner.analyse()
 print(f'{result["data"]["attributes"]["stats"]}\n{result["meta"]["file_info"]["sha256"]}\n{result["meta"]["file_info"]["size"]}')
