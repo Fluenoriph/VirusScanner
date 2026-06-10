@@ -1,9 +1,9 @@
 """
-Название утилиты: Log Scanner
-Версия: 0.9
-Дата: Февраль 2026 г.
-Автор: Богданов Иван
-Контакты: fluenoriph@gmail.com, fluenoriph@yandex.ru
+Program name: Virus Scanner
+Version: 1.0
+Date:  2026 г.
+Author: Ivan Bogdanov
+Contacts: fluenoriph@gmail.com, fluenoriph@yandex.ru
 """
 
 import platform
@@ -25,9 +25,29 @@ class VirusScannerCLI:
 
     @staticmethod
     @APP.command()
-    def analyse_the_data(data_to_analyse: str, virus_total_api_key: str,
+    def analyse_the_data(virus_total_api_key: str, data_to_analyse: str,
+                         ip: Annotated[bool, typer.Argument()] = False,
+                         domain: Annotated[bool, typer.Argument()] = False,
+                         url: Annotated[bool, typer.Argument()] = False,
+                         file: Annotated[bool, typer.Argument()] = False,
+                         obj: Annotated[bool, typer.Argument()] = False,
+                         log: Annotated[bool, typer.Argument()] = False,
+                         directory: Annotated[bool, typer.Argument()] = False,
                          output_path: Annotated[str, typer.Argument()] = PROGRAM_DIRECTORY,
                          report_format: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[2]):
+
+        def variant(data):
+            if obj:
+                return data
+
+        for data_type in (ip, domain, url, file):
+
+
+        if ip:
+
+
+
+
 
         pass
 

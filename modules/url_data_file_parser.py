@@ -1,7 +1,7 @@
 import re
 from modules.base_data_file_parser import BaseDataFileParser
 
-
+# on one data string !!
 class URLDataFileParser(BaseDataFileParser):
     def __init__(self, data_file):
         super().__init__(data_file)

@@ -31,4 +31,4 @@ load_dotenv()
 url_scanner = UrlVirusTotalAnalyser(os.getenv('API_KEY'), '/urls', 'https://cyberyozh.com')
 
 result = url_scanner.analyse()
-#print(f'URL result: {result["data"]["attributes"]["stats"]}\n{result["meta"]["url_info"]["url"]}')
+print(f'URL result: {result["data"]["attributes"]["stats"]}\n{result["meta"]["url_info"]["url"]}')
