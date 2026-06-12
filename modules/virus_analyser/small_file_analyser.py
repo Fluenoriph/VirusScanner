@@ -3,11 +3,11 @@ import os
 import requests
 from flask.cli import load_dotenv
 
-from modules.base_virus_total_analyser import BaseVirusTotalAnalyser
-from modules.url_virus_total_analyser import UrlVirusTotalAnalyser
+from modules.virus_analyser.base_analyser import BaseAnalyser
+from modules.virus_analyser.url_analyser import UrlAnalyser
 
 
-class SmallFileVirusTotalAnalyser(UrlVirusTotalAnalyser):
+class SmallFileAnalyser(UrlAnalyser):
     def __init__(self, api_key, endpoint, data):
         super().__init__(api_key, endpoint, data)
 
@@ -16,14 +16,14 @@ class SmallFileVirusTotalAnalyser(UrlVirusTotalAnalyser):
             files = { 'file': (self.data, file) }
 
             # if 200 or 400 ??
-            re = requests.post(BaseVirusTotalAnalyser.API_URL + self.endpoint, headers=self.headers, files=files)
+            re = requests.post(BaseAnalyser.API_URL + self.endpoint, headers=self.headers, files=files)
 
         return re
 
 
 load_dotenv()
 
-file_scanner = SmallFileVirusTotalAnalyser(os.getenv('API_KEY'), '/files', '/home/ripher12/vid.mp4')
+file_scanner = SmallFileAnalyser(os.getenv('API_KEY'), '/files', '/home/ripher12/vid.mp4')
 
 result = file_scanner.analyse()
 print(f'{result["data"]["attributes"]["stats"]}\n{result["meta"]["file_info"]["sha256"]}\n{result["meta"]["file_info"]["size"]}')

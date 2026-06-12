@@ -3,15 +3,15 @@ import sys
 import requests
 from flask.cli import load_dotenv
 
-from modules.base_virus_total_analyser import BaseVirusTotalAnalyser
+from modules.virus_analyser.base_analyser import BaseAnalyser
 
 
-class BigFileVirusTotalAnalyser(BaseVirusTotalAnalyser):
+class BigFileAnalyser(BaseAnalyser):
     def __init__(self, api_key, endpoint, data):
         super().__init__(api_key, endpoint, data)
 
     def analyse(self):
-        response_upload_url = requests.get(BaseVirusTotalAnalyser.API_URL + self.endpoint, headers=self.headers)
+        response_upload_url = requests.get(BaseAnalyser.API_URL + self.endpoint, headers=self.headers)
 
         # if 200 or 400
         with open(self.data, 'rb') as file:
@@ -36,7 +36,7 @@ class BigFileVirusTotalAnalyser(BaseVirusTotalAnalyser):
 
 
 load_dotenv()
-file = BigFileVirusTotalAnalyser(os.getenv('API_KEY'), '/files/upload_url',
+file = BigFileAnalyser(os.getenv('API_KEY'), '/files/upload_url',
                                  '/home/ripher12/Загрузки/code_1.109.0-1770171879_amd64.deb')
 
 result_file = file.analyse()

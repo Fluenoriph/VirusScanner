@@ -2,7 +2,7 @@ import abc
 from modules.real_time import CurrentTime
 
 
-class BaseVirusTotalAnalyser(abc.ABC):
+class BaseAnalyser(abc.ABC):
     API_URL = 'https://www.virustotal.com/api/v3/'
 
     def __init__(self, api_key, endpoint, data):

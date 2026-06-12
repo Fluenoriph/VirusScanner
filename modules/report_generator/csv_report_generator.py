@@ -1,7 +1,7 @@
 # Файл 'csv_report_generator.py': класс для формирования отчета в формате 'csv'.
 
 import csv
-from modules.base_report_generator import BaseReportGenerator
+from modules.report_generator.base_report_generator import BaseReportGenerator
 
 
 class CsvReportGenerator(BaseReportGenerator):

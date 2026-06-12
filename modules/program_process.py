@@ -5,8 +5,8 @@
 
 from modules.log_parser import LogParser
 from modules.virus_total_checker import VirusTotalChecker
-from modules.csv_report_generator import CsvReportGenerator
-from modules.json_report_generator import JsonReportGenerator
+from modules.report_generator.csv_report_generator import CsvReportGenerator
+from modules.report_generator.json_report_generator import JsonReportGenerator
 from modules.program_logger import ProgramLogger
 
 
