@@ -2,7 +2,7 @@ import re
 from modules.data_validator.base_validator import BaseValidator
 
 
-class TargetDataValidator(BaseValidator):
+class TargetWebDataValidator(BaseValidator):
     def __init__(self, rgx_pattern):
         self.rgx_pattern = rgx_pattern
 

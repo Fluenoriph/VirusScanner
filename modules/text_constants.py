@@ -13,3 +13,11 @@ TARGET_BIG_FILE_HASH = 'MD5 file digest'
 TARGET_FILE_SIZE = 'File size'
 
 REPORT_FILE_TYPE = 'HTML', 'CSV', 'JSON'
+
+'''
+    ip - last_analysis_stats harmless malicious suspicious undetected timeout
+    
+    domain - this ip scan
+    
+    url/ file - all
+'''

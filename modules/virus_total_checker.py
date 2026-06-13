@@ -54,6 +54,10 @@ class VirusTotalChecker:
 
         result["Client uploaded file digest"] = log_data[1]
 
+
+
+
+
         if hash_analys_response is not None:
             for status in VirusTotalChecker.ANALYSIS_STATUS:
                 result[status_type(VirusTotalChecker.ANALYSIS_OBJECT[1], status)] = status_count(hash_analys_response, status)

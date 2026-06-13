@@ -2,9 +2,9 @@ import os
 from modules.data_validator.base_validator import BaseValidator
 
 
-class PathValidator(BaseValidator):
+class FileValidator(BaseValidator):
     def validate(self, data):
-        if os.path.exists(os.path.normcase(data)):
-            return True
+        if os.path.exists(data) and os.path.isfile(data):
+            return data
         else:
             return False

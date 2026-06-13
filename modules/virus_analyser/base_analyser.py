@@ -13,3 +13,5 @@ class BaseAnalyser(abc.ABC):
     @abc.abstractmethod
     def analyse(self):
         pass
+
+    #def response_correcting(self):
