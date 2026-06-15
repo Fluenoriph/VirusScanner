@@ -7,9 +7,8 @@ class TargetWebDataValidator(BaseValidator):
         self.rgx_pattern = rgx_pattern
 
     def validate(self, data):
-        match = re.search(self.rgx_pattern, data)
-
-        if match:
-            return match.group()
+        #match = re.search(self.rgx_pattern, data)
+        if re.search(self.rgx_pattern, data):
+            return True
         else:
             return False

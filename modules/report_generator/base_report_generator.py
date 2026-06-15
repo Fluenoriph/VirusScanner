@@ -6,6 +6,8 @@ from modules.real_time import CurrentTime
 
 
 class BaseReportGenerator(abc.ABC):
+    REPORT_FILE_TYPE = 'html', 'csv', 'json'
+
     def __init__(self, result_data, report_path): # If default path !
         self.result_data = result_data
 

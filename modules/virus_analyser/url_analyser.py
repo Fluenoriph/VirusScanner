@@ -34,6 +34,7 @@ result = url_scanner.analyse()
 
 out = { "Analysis time": 2026 }
 out.update({ "URL": result["meta"]["url_info"]["url"] })
+
 out.update(result["data"]["attributes"]["stats"])
 
 print(out)

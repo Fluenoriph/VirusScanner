@@ -1,6 +1,6 @@
 # Файл 'web_api.py': минимальный, тестовый веб интерфейс.
 # Клиент - браузер. Получает данные отчета в виде json.
-
+'''
 import os
 from flask import Flask, render_template, request, jsonify
 from modules.program_process import ProgramProcess
@@ -30,3 +30,4 @@ def handle_file_upload():
         return jsonify(scaner_app.result)
 
     return None
+'''

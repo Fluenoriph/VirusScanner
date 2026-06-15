@@ -8,10 +8,18 @@ Contacts: fluenoriph@gmail.com, fluenoriph@yandex.ru
 
 import os
 import sys
-from typing import Annotated
+from typing import Annotated, Literal
 import typer
 from rich import print
-from modules.text_constants import REPORT_FILE_TYPE
+
+from modules.data_validator.file_validator import FileValidator
+from modules.data_validator.target_web_data_validator import TargetWebDataValidator
+from modules.data_validator.rgx_patterns import IP_ADDRESS
+from modules.program_process import ip_object_process
+from modules.program_process.ip_object_process import IpObjectProcess
+#from dotenv import load_dotenv
+from modules.report_generator.base_report_generator import BaseReportGenerator
+from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
 
 
 class VirusScannerCLI:
@@ -26,23 +34,43 @@ class VirusScannerCLI:
     @staticmethod
     @APP.command()
     def analyse_the_data(virus_total_api_key: str, data_to_analyse: str,
-                         target: Annotated[TARGET_DATA, typer.Argument()],  # testing !!!
-                         variant: Annotated[DATA_VARIANT, typer.Argument()],
-                         output: Annotated[str, typer.Argument()] = APP_DIRECTORY,
-                         report: Annotated[str, typer.Argument()] = REPORT_FILE_TYPE[0]):
+                         target: Annotated[Literal['ip', 'domain', 'url', 'file'], typer.Argument()],  # testing !!!
+                         variant: Annotated[Literal['object', 'log', 'directory'], typer.Argument()]):
+                         #output: Annotated[str, typer.Argument()] = APP_DIRECTORY,
+                         #report: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[0]):
 
-        input_data = 'virus_total_api_key', 'data_to_analyse', 'output', 'report'
+        input_data = 'virus_total_api_key', 'data_to_analyse' #, 'output', 'report'
 
         print("[green]App started[/green]")
 
+        if target == VirusScannerCLI.TARGET_DATA[1] and variant == VirusScannerCLI.DATA_VARIANT[0]:
+# validate out path
+# .........
+            # validate target data
+            validator = TargetWebDataValidator(IP_ADDRESS)
+            valid_data = validator.validate(data_to_analyse)  # return 1 or 0
 
-            # process
+            if valid_data:
+                # analyse
 
-        # echo Scanning done / bad - exit
+                analyser = DirectEndpointAnalyser(virus_total_api_key, '/ip_addresses/',
+                                              valid_data, VirusScannerCLI.TARGET_DATA[0].upper())
+                if analyser.analyse():
+                    print(f'YES OK !!!!!!!\n{analyser.result_data}')
+                else:
+                    print(f'ERROR !!!!!!!\n{analyser.result_data}')
+
+            else:
+                print("[red]Invalid data![/red]")
 
 
+VirusScannerCLI()
 
 
+validators = (TargetWebDataValidator(IP_ADDRESS), TargetWebDataValidator('DOMAIN'),
+              TargetWebDataValidator('URL'), FileValidator())
+
+analysers =
 
 
 
