@@ -4,12 +4,11 @@ from modules.real_time import CurrentTime
 
 class BaseAnalyser(abc.ABC):
     API_URL = 'https://www.virustotal.com/api/v3/'
-    STATS_KEY = 'last_analysis_stats'
 
-    def __init__(self, api_key, endpoint, data):
+    def __init__(self, api_key, data, target_type):
         self.headers = { 'x-apikey': api_key }
-        self.endpoint = endpoint
         self.data = data
+        self.target_type = target_type
         self._result_data = {}
 
     @property

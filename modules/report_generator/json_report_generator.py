@@ -9,5 +9,6 @@ class JsonReportGenerator(BaseReportGenerator):
         super().__init__(result_data, report_path)
 
     def generate(self):
-        with open(self.create_report_file(BaseReportGenerator.REPORT_FILE_TYPE[1]), "w", encoding="utf-8") as file:
+        with open(self.create_report_file(BaseReportGenerator.REPORT_FILE_TYPE[2]), "w", encoding="utf-8") as file:
             json.dump(self.result_data, file, indent=4)
+            # test dump !!

@@ -15,8 +15,7 @@ from rich import print
 from modules.data_validator.file_validator import FileValidator
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
 from modules.data_validator.rgx_patterns import IP_ADDRESS
-from modules.program_process import ip_object_process
-from modules.program_process.ip_object_process import IpObjectProcess
+
 #from dotenv import load_dotenv
 from modules.report_generator.base_report_generator import BaseReportGenerator
 from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
@@ -25,8 +24,6 @@ from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalys
 class VirusScannerCLI:
     APP = typer.Typer()
     APP_DIRECTORY = typer.get_app_dir('virus-scanner') # name ????
-    TARGET_DATA = 'ip', 'domain', 'url', 'file'
-    DATA_VARIANT = 'object', 'log', 'directory'
 
     def __init__(self):
         VirusScannerCLI.APP()
@@ -39,9 +36,9 @@ class VirusScannerCLI:
                          #output: Annotated[str, typer.Argument()] = APP_DIRECTORY,
                          #report: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[0]):
 
-        input_data = 'virus_total_api_key', 'data_to_analyse' #, 'output', 'report'
+        input_data = 'virus_total_api_key', 'data_to_analyse', 'output', 'report', 'target', 'verbose'
 
-        print("[green]App started[/green]")
+        print("[green]Scanner started ![/green]")
 
         if target == VirusScannerCLI.TARGET_DATA[1] and variant == VirusScannerCLI.DATA_VARIANT[0]:
 # validate out path

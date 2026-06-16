@@ -27,6 +27,11 @@ class UrlAnalyser(BaseAnalyser):
                              data={ 'url': self.data })
 
 
+
+
+
+
+
 load_dotenv()
 url_scanner = UrlAnalyser(os.getenv('API_KEY'), '/urls', 'https://cyberyozh.com')
 
