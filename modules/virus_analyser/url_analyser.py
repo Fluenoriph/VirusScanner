@@ -1,47 +1,16 @@
-import os
-
 import requests
-from flask.cli import load_dotenv
-
+from modules.app_data import AppData
+from modules.virus_analyser.analyses_endpoint_analyser import AnalysesEndpointAnalyser
 from modules.virus_analyser.base_analyser import BaseAnalyser
 
 
-class UrlAnalyser(BaseAnalyser):
-    def __init__(self, api_key, endpoint, data):
-        super().__init__(api_key, endpoint, data)
+class UrlAnalyser(AnalysesEndpointAnalyser):
+    def __init__(self, api_key, data_for_analysis, target_type = AppData.TARGET[2]):
+        super().__init__(api_key, data_for_analysis, target_type)
 
-    def analyse(self):
-        response_id = self.get_data_id()
-
-        if response_id.status_code == 200:
-            response_result = requests.get(BaseAnalyser.API_URL + '/analyses/' +
-                                           response_id.json()["data"]["id"], headers=self.headers)
-
-            # if 400
-            return response_result.json()
-        else:
-            return None # Message ? exit ? #
+    def add_analysed_data_info(self, response_json):
+        self.result_data.update( {self.target_type: response_json['meta']['url_info']['url']} )
 
     def get_data_id(self):
-        return requests.post(BaseAnalyser.API_URL + self.endpoint, headers=self.headers,
-                             data={ 'url': self.data })
-
-
-
-
-
-
-
-load_dotenv()
-url_scanner = UrlAnalyser(os.getenv('API_KEY'), '/urls', 'https://cyberyozh.com')
-
-result = url_scanner.analyse()
-
-out = { "Analysis time": 2026 }
-out.update({ "URL": result["meta"]["url_info"]["url"] })
-
-out.update(result["data"]["attributes"]["stats"])
-
-print(out)
-
-#print(f'URL result: {result["data"]["attributes"]["stats"]}\n{result["meta"]["url_info"]["url"]}')
+        return requests.post(BaseAnalyser.API_URL + AppData.ENDPOINT[self.target_type], headers=self.headers,
+                             data={ self.target_type: self.data_for_analysis} )

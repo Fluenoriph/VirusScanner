@@ -1,31 +1,22 @@
-import os
-
 import requests
-from flask.cli import load_dotenv
-
+from modules.app_data import AppData
 from modules.virus_analyser.base_analyser import BaseAnalyser
-from modules.virus_analyser.url_analyser import UrlAnalyser
+from modules.virus_analyser.analyses_endpoint_analyser import AnalysesEndpointAnalyser
 
 
-class SmallFileAnalyser(UrlAnalyser):
-    def __init__(self, api_key, endpoint, data):
-        super().__init__(api_key, endpoint, data)
+class SmallFileAnalyser(AnalysesEndpointAnalyser):
+    def __init__(self, api_key, data_for_analysis, target_type = AppData.TARGET[3]):
+        super().__init__(api_key, data_for_analysis, target_type)
+
+    def add_analysed_data_info(self, response_json):
+        self.result_data.update({ 'sha256': response_json['meta']['file_info']['sha256']})
+        self.result_data.update({ 'size': response_json['meta']['file_info']['size']})
 
     def get_data_id(self):
-        with open(self.data, 'rb') as file:
-            files = { 'file': (self.data, file) }
+        with open(self.data_for_analysis, 'rb') as file:
+            files = { self.target_type: (self.data_for_analysis, file)}
 
-            # if 200 or 400 ??
-            re = requests.post(BaseAnalyser.API_URL + self.endpoint, headers=self.headers, files=files)
-
-        return re
+            return requests.post(BaseAnalyser.API_URL + AppData.ENDPOINT[self.target_type]['small'],
+                                 headers=self.headers, files=files)
 
 
-load_dotenv()
-
-file_scanner = SmallFileAnalyser(os.getenv('API_KEY'), '/files', '/home/ripher12/vid.mp4')
-
-result = file_scanner.analyse()
-print(f'{result["data"]["attributes"]["stats"]}\n{result["meta"]["file_info"]["sha256"]}\n{result["meta"]["file_info"]["size"]}')
-
-# может быть ошибка 400 или статусы все нули ???
