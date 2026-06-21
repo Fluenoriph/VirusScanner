@@ -21,7 +21,10 @@ class BaseProgramProcessHandler(abc.ABC):
         self.report_format = input_data[3]
         self.target_type = input_data[4]
 
+
         self.virus_scanning()
+
+
         self.report_generating()
 
         if input_data[5]:

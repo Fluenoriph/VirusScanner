@@ -1,5 +1,4 @@
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
-from modules.data_validator.rgx_patterns import IP_ADDRESS
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
 from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
 

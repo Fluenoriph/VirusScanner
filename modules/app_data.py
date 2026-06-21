@@ -1,4 +1,4 @@
-
+import re
 
 
 class AppData:
@@ -8,11 +8,11 @@ class AppData:
     DIRECT_ENDPOINT_STATS_KEY = 'last_analysis_stats'
     URL_AND_FILE_STATS_KEY = 'stats'
 
-    PROCESS_HANDLER = {
+    '''PROCESS_HANDLER = {
         'ip': 'ip',
         'domain': 'domain',
         'url': 'url',
-    }
+    }'''
 
     STATS_KEY = {
         TARGET[0]: DIRECT_ENDPOINT_STATS_KEY,
@@ -25,5 +25,12 @@ class AppData:
         TARGET[0]: '/ip_addresses/',
         TARGET[1]: '/domains/',
         TARGET[2]: '/urls',
-        TARGET[3]: { 'small': '/files', 'big': '/files/upload_url' }
+        TARGET[3]: ('/files', '/files/upload_url')
+    }
+
+    RGX_PATTERN = {
+        TARGET[0]: re.compile(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$"),
+        TARGET[1]: re.compile(r"^[a-zA-Z0-9][-a-zA-Z0-9\\.]*$"),
+        TARGET[2]: re.compile(r"^https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\."
+                          r"[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$")
     }

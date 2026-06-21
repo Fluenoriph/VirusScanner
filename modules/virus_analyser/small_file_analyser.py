@@ -16,7 +16,7 @@ class SmallFileAnalyser(AnalysesEndpointAnalyser):
         with open(self.data_for_analysis, 'rb') as file:
             files = { self.target_type: (self.data_for_analysis, file)}
 
-            return requests.post(BaseAnalyser.API_URL + AppData.ENDPOINT[self.target_type]['small'],
+            return requests.post(BaseAnalyser.API_URL + AppData.ENDPOINT[self.target_type][0],
                                  headers=self.headers, files=files)
 
 

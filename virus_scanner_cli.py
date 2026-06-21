@@ -42,15 +42,13 @@ class VirusScannerCLI:
 
         #input_data = 'virus_total_api_key', 'data_to_analyse', 'output', 'report', 'target', 'verbose'
 
-        #big /home/fluenoriph/Downloads/Backup_PDF_Protocols.Scan.Files_2.0.exe
-        #small /home/fluenoriph/music_test/media/ripher12/samsung_ssd/ELECTRONICA/[ASHADOW941CD] Moving Shadow 04.1 mixed By Timecode [2004]/11. The Ark.flac
 
         web_data_analyser = {
             'ip': DirectEndpointAnalyser(virus_total_api_key, data_to_analyse, 'ip'),
             'domain': DirectEndpointAnalyser(virus_total_api_key, data_to_analyse, 'domain'),
             'url': UrlAnalyser(virus_total_api_key, data_to_analyse)
         }
-
+        # one class
         file_analyser = {
             'small': SmallFileAnalyser(virus_total_api_key, data_to_analyse),
             'big': BigFileAnalyser(virus_total_api_key, data_to_analyse)

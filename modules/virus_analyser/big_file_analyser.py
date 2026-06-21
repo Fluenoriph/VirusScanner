@@ -12,7 +12,7 @@ class BigFileAnalyser(BaseAnalyser):
         self.result_data.update({'size': response_json['meta']['file_info']['size']})
 
     def analyse(self):
-        response_upload_url = self.standard_request_get(AppData.ENDPOINT[self.target_type]['big'])
+        response_upload_url = self.standard_request_get(AppData.ENDPOINT[self.target_type][1])
         response_upload_url_json = response_upload_url.json()
 
         if response_upload_url.status_code == BaseAnalyser.SUCCESSFUL_CODE:
