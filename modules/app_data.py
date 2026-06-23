@@ -1,5 +1,8 @@
 import re
 
+from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
+from modules.virus_analyser.url_analyser import UrlAnalyser
+
 
 class AppData:
     TARGET = 'ip', 'domain', 'url', 'file'
@@ -8,11 +11,15 @@ class AppData:
     DIRECT_ENDPOINT_STATS_KEY = 'last_analysis_stats'
     URL_AND_FILE_STATS_KEY = 'stats'
 
-    '''PROCESS_HANDLER = {
-        'ip': 'ip',
-        'domain': 'domain',
-        'url': 'url',
-    }'''
+    WEB_DATA_ANALYSER = {
+        TARGET[0]: DirectEndpointAnalyser(TARGET[0]),
+        TARGET[1]: DirectEndpointAnalyser(TARGET[1]),
+        TARGET[2]: UrlAnalyser()
+    }
+
+    FILE_ANALYSER = {SmallFileAnalyser(virus_total_api_key, data_to_analyse),
+        'big': BigFileAnalyser(virus_total_api_key, data_to_analyse)
+    }
 
     STATS_KEY = {
         TARGET[0]: DIRECT_ENDPOINT_STATS_KEY,

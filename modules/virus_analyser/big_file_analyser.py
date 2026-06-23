@@ -4,8 +4,8 @@ from modules.virus_analyser.base_analyser import BaseAnalyser
 
 
 class BigFileAnalyser(BaseAnalyser):
-    def __init__(self, api_key, data_for_analysis, target_type = AppData.TARGET[3]):
-        super().__init__(api_key, data_for_analysis, target_type)
+    def __init__(self, target_type = AppData.TARGET[3]):
+        super().__init__(target_type)
 
     def add_analysed_data_info(self, response_json):   # file class duplicate
         self.result_data.update({'md5': response_json['meta']['file_info']['md5']})

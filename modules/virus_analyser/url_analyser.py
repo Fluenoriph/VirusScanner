@@ -5,8 +5,8 @@ from modules.virus_analyser.base_analyser import BaseAnalyser
 
 
 class UrlAnalyser(AnalysesEndpointAnalyser):
-    def __init__(self, api_key, data_for_analysis, target_type = AppData.TARGET[2]):
-        super().__init__(api_key, data_for_analysis, target_type)
+    def __init__(self, target_type = AppData.TARGET[2]):
+        super().__init__(target_type)
 
     def add_analysed_data_info(self, response_json):
         self.result_data.update( {self.target_type: response_json['meta']['url_info']['url']} )

@@ -3,8 +3,8 @@ from modules.virus_analyser.base_analyser import BaseAnalyser
 
 
 class AnalysesEndpointAnalyser(BaseAnalyser, abc.ABC):
-    def __init__(self, api_key, data_for_analysis, target_type):
-        super().__init__(api_key, data_for_analysis, target_type)
+    def __init__(self, target_type):
+        super().__init__(target_type)
 
     @abc.abstractmethod
     def get_data_id(self):

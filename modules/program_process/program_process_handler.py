@@ -1,9 +1,12 @@
-import abc
 import os
 from modules.program_process.process_code import ProcessCode as pc, ProcessCode
 
 
-class BaseProgramProcessHandler(abc.ABC):
+class ProgramProcessHandler:
+
+
+
+
     # logger ???
 
     def __init__(self, input_data):

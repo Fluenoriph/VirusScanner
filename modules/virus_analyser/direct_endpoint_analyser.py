@@ -3,8 +3,8 @@ from modules.app_data import AppData
 
 
 class DirectEndpointAnalyser(BaseAnalyser):
-    def __init__(self, api_key, data_for_analysis, target_type):
-        super().__init__(api_key, data_for_analysis, target_type)
+    def __init__(self, target_type):
+        super().__init__(target_type)
 
     def analyse(self):
         response = self.standard_request_get(AppData.ENDPOINT[self.target_type] + self.data_for_analysis)

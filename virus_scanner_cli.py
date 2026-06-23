@@ -15,7 +15,6 @@ from rich import print
 
 from modules.data_validator.file_validator import FileValidator
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
-from modules.data_validator.rgx_patterns import IP_ADDRESS
 
 #from dotenv import load_dotenv
 from modules.report_generator.base_report_generator import BaseReportGenerator
@@ -43,16 +42,9 @@ class VirusScannerCLI:
         #input_data = 'virus_total_api_key', 'data_to_analyse', 'output', 'report', 'target', 'verbose'
 
 
-        web_data_analyser = {
-            'ip': DirectEndpointAnalyser(virus_total_api_key, data_to_analyse, 'ip'),
-            'domain': DirectEndpointAnalyser(virus_total_api_key, data_to_analyse, 'domain'),
-            'url': UrlAnalyser(virus_total_api_key, data_to_analyse)
-        }
-        # one class
-        file_analyser = {
-            'small': SmallFileAnalyser(virus_total_api_key, data_to_analyse),
-            'big': BigFileAnalyser(virus_total_api_key, data_to_analyse)
-        }
+
+
+
 
         # если в ответе одни нули, то повтор.
 
