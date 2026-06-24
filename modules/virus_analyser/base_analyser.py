@@ -1,6 +1,5 @@
 import abc
 import requests
-
 from modules.app_data import AppData
 from modules.real_time import CurrentTime
 

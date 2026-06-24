@@ -39,7 +39,7 @@ class VirusScannerCLI:
                          #output: Annotated[str, typer.Argument()] = APP_DIRECTORY,
                          #report: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[0]):
 
-        #input_data = 'virus_total_api_key', 'data_to_analyse', 'output', 'report', 'target', 'verbose'
+        #input_data = 'virus_total_api_key', 'data_to_analyse', 'target_type', 'variant', 'output', 'report_type', 'verbose'
 
 
 
