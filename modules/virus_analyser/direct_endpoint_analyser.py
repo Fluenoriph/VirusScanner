@@ -1,5 +1,5 @@
 from modules.virus_analyser.base_analyser import BaseAnalyser
-from modules.app_data import AppData
+from modules.app_data import ENDPOINT
 
 
 class DirectEndpointAnalyser(BaseAnalyser):
@@ -7,7 +7,7 @@ class DirectEndpointAnalyser(BaseAnalyser):
         super().__init__(target_type)
 
     def analyse(self):
-        response = self.standard_request_get(AppData.ENDPOINT[self.target_type] + self.data_for_analysis)
+        response = self.standard_request_get(ENDPOINT[self.target_type] + self.data_for_analysis)
         response_json = response.json()
 
         if response.status_code == BaseAnalyser.SUCCESSFUL_CODE:

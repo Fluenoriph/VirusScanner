@@ -1,11 +1,11 @@
 import requests
-from modules.app_data import AppData
+from modules.app_data import TARGET, ENDPOINT
 from modules.virus_analyser.base_analyser import BaseAnalyser
 from modules.virus_analyser.analyses_endpoint_analyser import AnalysesEndpointAnalyser
 
 
 class SmallFileAnalyser(AnalysesEndpointAnalyser):
-    def __init__(self, target_type = AppData.TARGET[3]):
+    def __init__(self, target_type = TARGET[3]):
         super().__init__(target_type)
 
     def add_analysed_data_info(self, response_json):
@@ -16,7 +16,7 @@ class SmallFileAnalyser(AnalysesEndpointAnalyser):
         with open(self.data_for_analysis, 'rb') as file:
             files = { self.target_type: (self.data_for_analysis, file)}
 
-            return requests.post(BaseAnalyser.API_URL + AppData.ENDPOINT[self.target_type][0],
+            return requests.post(BaseAnalyser.API_URL + ENDPOINT[self.target_type][0],
                                  headers=self.headers, files=files)
 
 

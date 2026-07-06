@@ -1,6 +1,6 @@
 import abc
 import requests
-from modules.app_data import AppData
+from modules.app_data import STATS_KEY
 from modules.real_time import CurrentTime
 
 
@@ -13,11 +13,11 @@ class BaseAnalyser(abc.ABC):
         self._api_key = None
         self._data_for_analysis = None
 
-        self.headers = { 'x-apikey': self.api_key}
-        self.standard_request_get = lambda endpoint: requests.get(BaseAnalyser.API_URL + endpoint, headers=self.headers)
+        self.standard_request_get = lambda endpoint: requests.get(BaseAnalyser.API_URL + endpoint,
+                                                                  headers={ 'x-apikey': self.api_key })
         self.add_time = lambda: self.result_data.update({ 'analysis time': CurrentTime.get_time() })
         self.add_stats = lambda response_json: self.result_data.update(response_json['data']['attributes']
-                                                                  [AppData.STATS_KEY[self.target_type]])
+                                                                  [STATS_KEY[self.target_type]])
 
         self._result_data = {}
     

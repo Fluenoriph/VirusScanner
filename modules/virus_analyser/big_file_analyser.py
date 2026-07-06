@@ -1,10 +1,10 @@
 import requests
-from modules.app_data import AppData
+from modules.app_data import TARGET, ENDPOINT
 from modules.virus_analyser.base_analyser import BaseAnalyser
 
 
 class BigFileAnalyser(BaseAnalyser):
-    def __init__(self, target_type = AppData.TARGET[3]):
+    def __init__(self, target_type = TARGET[3]):
         super().__init__(target_type)
 
     def add_analysed_data_info(self, response_json):   # file class duplicate
@@ -12,7 +12,7 @@ class BigFileAnalyser(BaseAnalyser):
         self.result_data.update({'size': response_json['meta']['file_info']['size']})
 
     def analyse(self):
-        response_upload_url = self.standard_request_get(AppData.ENDPOINT[self.target_type][1])
+        response_upload_url = self.standard_request_get(ENDPOINT[self.target_type][1])
         response_upload_url_json = response_upload_url.json()
 
         if response_upload_url.status_code == BaseAnalyser.SUCCESSFUL_CODE:
