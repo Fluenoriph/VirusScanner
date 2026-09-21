@@ -34,9 +34,11 @@ class VirusScannerCLI:
 
     @staticmethod
     @APP.command()
-    def analyse_the_data(virus_total_api_key: str, data_to_analyse: str,
-                         target: Annotated[Literal['ip', 'domain', 'url', 'file'], typer.Argument()],  # testing !!!
-                         variant: Annotated[Literal['object', 'log', 'directory'], typer.Argument()]):
+    def analyse_the_data(virus_total_api_key: str,
+                         target: Annotated[Literal['i', 'dm', 'u', 'f'], typer.Argument()],  # testing !!!
+                         variant: Annotated[Literal['o', 'l', 'dr'], typer.Argument()],
+                         data_to_analyse: str):
+
                          #output: Annotated[str, typer.Argument()] = APP_DIRECTORY,
                          #report: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[0]):
 
@@ -47,8 +49,7 @@ class VirusScannerCLI:
 
         print("[green]Scanner started ![/green]")
 
-        app((virus_total_api_key, data_to_analyse, target, variant))
-
+        app((virus_total_api_key, target, variant, data_to_analyse))
 
 
 VirusScannerCLI()

@@ -14,20 +14,20 @@ class ProgramProcessHandler:
 
     # logger ???
 
-    # input_data = ('virus_total_api_key', 'data_to_analyse', 'target_type',
-    # 'variant', 'output', 'report_type', 'verbose')  no verbose !! (self.result)
+    # input_data = ('virus_total_api_key', 'target_type', 'variant', 'data_to_analyse',
+    # 'output', 'report_type', 'verbose')  no verbose !! (self.result)
 
     def __init__(self, input_data):
         # target not file
-        if input_data[2] is not TARGET[3]:
-            if input_data[3] is VARIANT[0]:
+        if input_data[1] is not TARGET[3]:
+            if input_data[2] is VARIANT[0]:
                 # object
-                validator = TargetWebDataValidator(input_data[2])
+                validator = TargetWebDataValidator(input_data[1])
 
-                if validator.validate(input_data[1]):
-                    analyser = ProgramProcessHandler.WEB_DATA_ANALYSER[input_data[2]]
+                if validator.validate(input_data[3]):
+                    analyser = ProgramProcessHandler.WEB_DATA_ANALYSER[input_data[1]]
                     analyser.api_key = input_data[0]
-                    analyser.data_for_analysis = input_data[1]
+                    analyser.data_for_analysis = input_data[3]
 
                     if analyser.analyse():  # function ???
                         print("Result is OK !")
@@ -37,7 +37,7 @@ class ProgramProcessHandler:
 
                 else:
                     print("Error") # BAD ARGUMENT !
-            elif input_data[3] is VARIANT[1]:
+            elif input_data[2] is VARIANT[1]:
                 pass # log variant
             else:
                 pass # dir variant
@@ -47,7 +47,7 @@ class ProgramProcessHandler:
         else:
             file_size_selector = FileAnalyserSelector()
 
-            if file_size_selector.select(input_data[1]):
+            if file_size_selector.select(input_data[3]):
                 analyser = file_size_selector.result
                 analyser.api_key = input_data[0]
 

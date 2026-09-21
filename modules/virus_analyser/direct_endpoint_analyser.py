@@ -21,5 +21,5 @@ class DirectEndpointAnalyser(BaseAnalyser):
 
             return False
 
-    def add_analysed_data_info(self, response_json):
-        self.result_data.update({self.target_type: response_json['data']['id']})
+    def add_analysed_data_info(self, response):
+        self.result_data.update({self.target_type: response['data']['id']})

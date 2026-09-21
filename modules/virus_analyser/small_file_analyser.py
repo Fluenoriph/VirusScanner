@@ -8,15 +8,15 @@ class SmallFileAnalyser(AnalysesEndpointAnalyser):
     def __init__(self, target_type = TARGET[3]):
         super().__init__(target_type)
 
-    def add_analysed_data_info(self, response_json):
-        self.result_data.update({ 'sha256': response_json['meta']['file_info']['sha256']})
-        self.result_data.update({ 'size': response_json['meta']['file_info']['size']})
+    def add_analysed_data_info(self, response):
+        self.result_data.update({ 'sha256': response['meta']['file_info']['sha256']})
+        self.result_data.update({ 'size': response['meta']['file_info']['size']})
 
     def get_data_id(self):
         with open(self.data_for_analysis, 'rb') as file:
             files = { self.target_type: (self.data_for_analysis, file)}
 
             return requests.post(BaseAnalyser.API_URL + ENDPOINT[self.target_type][0],
-                                 headers=self.headers, files=files)
+                                 headers={ 'x-apikey': self.api_key }, files=files)
 
 

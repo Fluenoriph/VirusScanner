@@ -1,8 +1,14 @@
 import re
 
-
-TARGET = 'ip', 'domain', 'url', 'file'
-VARIANT = 'object', 'log', 'directory'
+# ip, domain, url, file
+TARGET = {
+    'i': 'ip',
+    'dm': 'domain',
+    'u': 'url',
+    'f': 'file'
+}
+# object, log, directory
+VARIANT = 'o', 'l', 'dr'
 
 DIRECT_ENDPOINT_STATS_KEY = 'last_analysis_stats'
 URL_AND_FILE_STATS_KEY = 'stats'
