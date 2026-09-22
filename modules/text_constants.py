@@ -1,7 +1,6 @@
 
 
-ANALYSIS_STATUS = ('malicious', 'suspicious', 'undetected', 'harmless', 'timeout', 'confirmed-timeout',
-                   'failure', 'type-unsupported')
+
 
 
 

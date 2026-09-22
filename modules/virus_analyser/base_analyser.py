@@ -5,11 +5,13 @@ from modules.real_time import CurrentTime
 
 
 class BaseAnalyser(abc.ABC):
-    API_URL = 'https://www.virustotal.com/api/v3/'
+    API_URL = 'https://www.virustotal.com/api/v3'
     SUCCESSFUL_CODE = 200
+    REQUEST_REPEAT_COUNT = 10
+    DELAY_TO_AGAIN_REQUEST = 3
 
-    def __init__(self, target_type):
-        self.target_type = target_type
+    def __init__(self, target_flag):
+        self.target_flag = target_flag
         self._api_key = None
         self._data_for_analysis = None
 
@@ -17,7 +19,7 @@ class BaseAnalyser(abc.ABC):
                                                                   headers={ 'x-apikey': self.api_key })
         self.add_time = lambda: self.result_data.update({ 'analysis time': CurrentTime.get_time() })
         self.add_stats = lambda response_json: self.result_data.update(response_json['data']['attributes']
-                                                                  [STATS_KEY[self.target_type]])
+                                                                  [STATS_KEY[self.target_flag]])
 
         self._result_data = {}
     
@@ -48,3 +50,15 @@ class BaseAnalyser(abc.ABC):
     @abc.abstractmethod
     def add_analysed_data_info(self, response):
         pass
+
+    def check_bad_status_values(self, response_json):
+        stats = response_json['data']['attributes'][STATS_KEY[self.target_flag]]
+
+        test_result = 0
+        for value in stats.values():
+            test_result += value
+
+        if test_result != 0:
+            return True
+        else:
+            return False

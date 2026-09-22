@@ -1,7 +1,7 @@
 """
-Application name: Virus Scanner
+Application name: Virus Scanner CLI
 Version: 1.0
-Date:  2026 г.
+Date: .... 2026 г.
 Author: Ivan Bogdanov
 Contacts: fluenoriph@gmail.com, fluenoriph@yandex.ru
 """
@@ -44,8 +44,6 @@ class VirusScannerCLI:
 
         #input_data = 'virus_total_api_key', 'data_to_analyse', 'target_type', 'variant', 'output', 'report_type', 'verbose'
 
-
-        # если в ответе одни нули, то повтор.
 
         print("[green]Scanner started ![/green]")
 

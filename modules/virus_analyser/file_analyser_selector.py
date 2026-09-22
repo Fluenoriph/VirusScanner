@@ -1,7 +1,5 @@
 import os
-from unittest import result
-
-from modules.program_process.process_code import ProcessCode
+from modules.program_process.program_codes import ProcessCode
 from modules.virus_analyser.big_file_analyser import BigFileAnalyser
 from modules.virus_analyser.small_file_analyser import SmallFileAnalyser
 

@@ -1,35 +1,44 @@
 import abc
+import time
 from modules.virus_analyser.base_analyser import BaseAnalyser
 
 
 class AnalysesEndpointAnalyser(BaseAnalyser, abc.ABC):
-    def __init__(self, target_type):
-        super().__init__(target_type)
+    def __init__(self, target_flag):
+        super().__init__(target_flag)
 
     @abc.abstractmethod
     def get_data_id(self):
         pass
 
     def analyse(self):
-        response_id = self.get_data_id()
-        response_id_json = response_id.json()
+        for _ in range(BaseAnalyser.REQUEST_REPEAT_COUNT):
+            response_id = self.get_data_id()
+            response_id_json = response_id.json()
 
-        if response_id.status_code == BaseAnalyser.SUCCESSFUL_CODE:
-            response_result = self.standard_request_get('/analyses/' + response_id_json['data']['id'])
-            response_result_json = response_result.json()
+            if response_id.status_code == BaseAnalyser.SUCCESSFUL_CODE:
+                response_result = self.standard_request_get('/analyses/' + response_id_json['data']['id'])
+                response_result_json = response_result.json()
 
-            if response_result.status_code == BaseAnalyser.SUCCESSFUL_CODE:
-                self.add_time()
-                self.add_analysed_data_info(response_result_json)
-                self.add_stats(response_result_json)
+                if self.check_bad_status_values(response_result_json):
+                    if response_result.status_code == BaseAnalyser.SUCCESSFUL_CODE:
+                        self.add_time()
+                        self.add_analysed_data_info(response_result_json)
+                        self.add_stats(response_result_json)
 
-                return True
+                        return True
+                    else:
+                        self.result_data.update(response_result_json)
+
+                        return False
+                else:
+                    time.sleep(BaseAnalyser.DELAY_TO_AGAIN_REQUEST)
+
+                    continue
+
             else:
-                self.result_data.update(response_result_json)
+                self.result_data.update(response_id_json)
 
                 return False
 
-        else:
-            self.result_data.update(response_id_json)
-
-            return False
+        return False
