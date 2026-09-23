@@ -18,9 +18,11 @@ class LogFileParser:
             data = file.readlines()
 
             for line in data:
-                matched_object = self.target_data_validator.validate(line)
+                clear_line = line.rstrip('\n')
 
-                if matched_object is not False:
-                    self._matched_data.append(matched_object)
+                match = self.target_data_validator.validate(clear_line)
+
+                if match is not False:
+                    self._matched_data.append(clear_line)
                 else:
-                    self._bad_data.append(line)
+                    self._bad_data.append(clear_line)

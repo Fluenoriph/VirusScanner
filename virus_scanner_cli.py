@@ -6,48 +6,68 @@ Author: Ivan Bogdanov
 Contacts: fluenoriph@gmail.com, fluenoriph@yandex.ru
 """
 
-import os
-import sys
 from typing import Annotated, Literal
-from pathlib import Path
 import typer
 from rich import print
-
-from modules.data_validator.file_validator import FileValidator
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
-
-#from dotenv import load_dotenv
-from modules.report_generator.base_report_generator import BaseReportGenerator
-from modules.virus_analyser.big_file_analyser import BigFileAnalyser
-from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
-from modules.virus_analyser.small_file_analyser import SmallFileAnalyser
-from modules.virus_analyser.url_analyser import UrlAnalyser
-from modules.program_process.program_process_handler import ProgramProcessHandler as app
+from modules.program_process.web_data_process_handler import WebDataProcessHandler
+from modules.program_process.file_process_handler import FileProcessHandler
+from modules.app_data import TARGET_FLAG, VARIANT_FLAG
+from modules.target_data_parser.log_file_parser import LogFileParser
+from modules.target_data_parser.log_variant_directory_parser import LogVariantDirectoryParser
 
 
 class VirusScannerCLI:
     APP = typer.Typer()
-    APP_DIRECTORY = typer.get_app_dir('virus-scanner') # name ????
+    APP_DIRECTORY = typer.get_app_dir('Virus Scanner CLI v.1.0')
 
     def __init__(self):
         VirusScannerCLI.APP()
 
     @staticmethod
     @APP.command()
-    def analyse_the_data(virus_total_api_key: str,
-                         target: Annotated[Literal['i', 'dm', 'u', 'f'], typer.Argument()],  # testing !!!
+    def analyse_the_data(api_key: str,
+                         target: Annotated[Literal['i', 'dm', 'u', 'f'], typer.Argument()],
                          variant: Annotated[Literal['o', 'l', 'dr'], typer.Argument()],
-                         data_to_analyse: str):
+                         data: str):
 
                          #output: Annotated[str, typer.Argument()] = APP_DIRECTORY,
                          #report: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[0]):
 
-        #input_data = 'virus_total_api_key', 'data_to_analyse', 'target_type', 'variant', 'output', 'report_type', 'verbose'
+        print("[green]> Scanning started ![/green]")
+
+        # --------------------- target is not file ---------------------
+        if target is not TARGET_FLAG[3]:
+            web_data_handler = WebDataProcessHandler(api_key, target)
+            # --------------------- object ---------------------
+            if variant is VARIANT_FLAG[0]:
+                web_data_handler.process_the_object(data)
+            # --------------------- log ---------------------
+            elif variant is VARIANT_FLAG[1]:
+                log_parser = LogFileParser(TargetWebDataValidator(target))
+                log_parser.parse(data)
+
+                for line in log_parser.matched_data:     # bad data ??
+                    print(line)
+                    web_data_handler.process_the_object(line)
+            # --------------------- directory ---------------------
+            else:
+                dir_parser = LogVariantDirectoryParser(data)
+                dir_parser.parse()
+
+                print(dir_parser.parsed_data)
 
 
-        print("[green]Scanner started ![/green]")
-
-        app((virus_total_api_key, target, variant, data_to_analyse))
+        # --------------------- target is file ---------------------
+        else:
+            file_data_handler = FileProcessHandler(api_key)
+            # --------------------- object ---------------------
+            if variant is VARIANT_FLAG[0]:
+                file_data_handler.process_the_object(data)
+            elif variant is VARIANT_FLAG[1]:
+                pass # log with file full path's
+            else:
+                pass # dir variant/ files in dir
 
 
 VirusScannerCLI()

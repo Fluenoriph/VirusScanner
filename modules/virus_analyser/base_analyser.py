@@ -7,8 +7,6 @@ from modules.real_time import CurrentTime
 class BaseAnalyser(abc.ABC):
     API_URL = 'https://www.virustotal.com/api/v3'
     SUCCESSFUL_CODE = 200
-    REQUEST_REPEAT_COUNT = 10
-    DELAY_TO_AGAIN_REQUEST = 3
 
     def __init__(self, target_flag):
         self.target_flag = target_flag
