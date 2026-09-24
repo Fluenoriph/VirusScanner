@@ -12,10 +12,8 @@ class WebDataProcessHandler(BaseProgramProcessHandler):
         TARGET_FLAG[2]: UrlAnalyser()
     }
 
-    def __init__(self, api_key, target_flag):
-        super().__init__(api_key)
-
-        self.target_flag = target_flag
+    def __init__(self, api_key, target_flag, output_path, report_file_type):
+        super().__init__(api_key, target_flag, output_path, report_file_type)
 
     def process_the_object(self, data):
         validator = TargetWebDataValidator(self.target_flag)
@@ -30,7 +28,8 @@ class WebDataProcessHandler(BaseProgramProcessHandler):
 
             if result_payload is not False:
                 print(result_payload)
-                # generate report !
+
+                self.process_the_report(result_payload)
             else:
                 print('Error connection to Virus Total')
                 return

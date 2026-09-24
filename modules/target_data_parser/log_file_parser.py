@@ -3,15 +3,10 @@ class LogFileParser:
     def __init__(self, target_data_validator):
         self.target_data_validator = target_data_validator
         self._matched_data = []
-        self._bad_data = []
 
     @property
     def matched_data(self):
         return self._matched_data
-
-    @property
-    def bad_data(self):
-        return self._bad_data
 
     def parse(self, log_file):
         with open(log_file, 'r') as file:
@@ -22,7 +17,5 @@ class LogFileParser:
 
                 match = self.target_data_validator.validate(clear_line)
 
-                if match is not False:
+                if match:
                     self._matched_data.append(clear_line)
-                else:
-                    self._bad_data.append(clear_line)

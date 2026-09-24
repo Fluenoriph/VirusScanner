@@ -8,6 +8,7 @@ Contacts: fluenoriph@gmail.com, fluenoriph@yandex.ru
 
 from typing import Annotated, Literal
 import typer
+import os
 from rich import print
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
 from modules.program_process.web_data_process_handler import WebDataProcessHandler
@@ -15,11 +16,12 @@ from modules.program_process.file_process_handler import FileProcessHandler
 from modules.app_data import TARGET_FLAG, VARIANT_FLAG
 from modules.target_data_parser.log_file_parser import LogFileParser
 from modules.target_data_parser.log_variant_directory_parser import LogVariantDirectoryParser
+from modules.app_data import REPORT_FILE_TYPE
 
 
 class VirusScannerCLI:
     APP = typer.Typer()
-    APP_DIRECTORY = typer.get_app_dir('Virus Scanner CLI v.1.0')
+    REPORT_DIRECTORY = os.getcwd() + '/reports'
 
     def __init__(self):
         VirusScannerCLI.APP()
@@ -29,16 +31,14 @@ class VirusScannerCLI:
     def analyse_the_data(api_key: str,
                          target: Annotated[Literal['i', 'dm', 'u', 'f'], typer.Argument()],
                          variant: Annotated[Literal['o', 'l', 'dr'], typer.Argument()],
-                         data: str):
-
-                         #output: Annotated[str, typer.Argument()] = APP_DIRECTORY,
-                         #report: Annotated[str, typer.Argument()] = BaseReportGenerator.REPORT_FILE_TYPE[0]):
+                         data: str, report: Annotated[str, typer.Argument()] = REPORT_FILE_TYPE[0],
+                         output: Annotated[str, typer.Argument()] = os.path.normcase(REPORT_DIRECTORY)):
 
         print("[green]> Scanning started ![/green]")
 
         # --------------------- target is not file ---------------------
         if target is not TARGET_FLAG[3]:
-            web_data_handler = WebDataProcessHandler(api_key, target)
+            web_data_handler = WebDataProcessHandler(api_key, target, output, report)
             # --------------------- object ---------------------
             if variant is VARIANT_FLAG[0]:
                 web_data_handler.process_the_object(data)

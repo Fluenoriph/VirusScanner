@@ -12,8 +12,8 @@ TARGET_NAME = {
 # object, log, directory
 VARIANT_FLAG = 'o', 'l', 'dr'
 
-#ANALYSIS_STATUS = ('malicious', 'suspicious', 'undetected', 'harmless', 'timeout', 'confirmed-timeout',
-                   #'failure', 'type-unsupported')   not need ????
+ANALYSIS_STATUS = ('malicious', 'suspicious', 'undetected', 'harmless', 'timeout', 'confirmed-timeout',
+                   'failure', 'type-unsupported')
 
 DIRECT_ENDPOINT_STATS_KEY = 'last_analysis_stats'
 URL_AND_FILE_STATS_KEY = 'stats'
@@ -37,3 +37,5 @@ RGX_PATTERN = {
     TARGET_FLAG[1]: re.compile(r'^[a-zA-Z0-9][-a-zA-Z0-9\\.]*$'),
     TARGET_FLAG[2]: re.compile(r'https?://(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)')
 }
+
+REPORT_FILE_TYPE = 'html', 'csv', 'json'

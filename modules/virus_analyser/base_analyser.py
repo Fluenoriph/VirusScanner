@@ -15,7 +15,7 @@ class BaseAnalyser(abc.ABC):
 
         self.standard_request_get = lambda endpoint: requests.get(BaseAnalyser.API_URL + endpoint,
                                                                   headers={ 'x-apikey': self.api_key })
-        self.add_time = lambda: self.result_data.update({ 'analysis time': CurrentTime.get_time() })
+        self.add_time = lambda: self.result_data.update({ 'analysis time': CurrentTime.get_current_time()})
         self.add_stats = lambda response_json: self.result_data.update(response_json['data']['attributes']
                                                                   [STATS_KEY[self.target_flag]])
 
