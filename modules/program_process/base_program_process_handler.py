@@ -1,5 +1,6 @@
 import abc
 import time
+from pathlib import Path
 from requests.exceptions import SSLError
 from modules.app_data import REPORT_FILE_TYPE
 from modules.report_generator.csv_report_generator import CsvReportGenerator
@@ -14,8 +15,17 @@ class BaseProgramProcessHandler(abc.ABC):
     def __init__(self, api_key, target_flag, output_path, report_file_type):
         self.api_key = api_key
         self.target_flag = target_flag
-        self.output_path = output_path
+        Path.mkdir(output_path, exist_ok=True)
+        self._output_path = output_path
         self.report_file_type = report_file_type
+
+    @property
+    def output_path(self):
+        return self._output_path
+
+    @output_path.setter
+    def output_path(self, value):
+        self._output_path = value
 
     @abc.abstractmethod
     def process_the_object(self, data):

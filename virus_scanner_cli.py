@@ -7,21 +7,23 @@ Contacts: fluenoriph@gmail.com, fluenoriph@yandex.ru
 """
 
 from typing import Annotated, Literal
-import typer
+from typer import Typer, Argument
 import os
 from rich import print
+from pathlib import Path
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
 from modules.program_process.web_data_process_handler import WebDataProcessHandler
 from modules.program_process.file_process_handler import FileProcessHandler
 from modules.app_data import TARGET_FLAG, VARIANT_FLAG
 from modules.target_data_parser.log_file_parser import LogFileParser
 from modules.target_data_parser.log_variant_directory_parser import LogVariantDirectoryParser
-from modules.app_data import REPORT_FILE_TYPE
 
 
 class VirusScannerCLI:
-    APP = typer.Typer()
-    REPORT_DIRECTORY = os.getcwd() + '/reports'
+    APP = Typer()
+    REPORT_DIRECTORY = Path(os.path.join(os.getcwd(), 'reports'))
+    CREATE_LOG_DIRECTORY = lambda log_path: os.path.join(VirusScannerCLI.REPORT_DIRECTORY,
+                                                         (str(os.path.basename(str(os.path.splitext(log_path)[0])))))
 
     def __init__(self):
         VirusScannerCLI.APP()
@@ -29,10 +31,10 @@ class VirusScannerCLI:
     @staticmethod
     @APP.command()
     def analyse_the_data(api_key: str,
-                         target: Annotated[Literal['i', 'dm', 'u', 'f'], typer.Argument()],
-                         variant: Annotated[Literal['o', 'l', 'dr'], typer.Argument()],
-                         data: str, report: Annotated[str, typer.Argument()] = REPORT_FILE_TYPE[0],
-                         output: Annotated[str, typer.Argument()] = os.path.normcase(REPORT_DIRECTORY)):
+                         target: Annotated[Literal['i', 'dm', 'u', 'f'], Argument()],
+                         variant: Annotated[Literal['o', 'l', 'dr'], Argument()],
+                         data: str, report: Annotated[Literal['html', 'csv', 'json'], Argument()],
+                         output: Annotated[str, Argument()] = str(REPORT_DIRECTORY)):
 
         print("[green]> Scanning started ![/green]")
 
@@ -44,18 +46,22 @@ class VirusScannerCLI:
                 web_data_handler.process_the_object(data)
             # --------------------- log ---------------------
             elif variant is VARIANT_FLAG[1]:
-                log_parser = LogFileParser(TargetWebDataValidator(target))
-                log_parser.parse(data)
+                VirusScannerCLI.process_the_log_file(target, data, web_data_handler)
 
-                for line in log_parser.matched_data:     # bad data ??
-                    print(line)
-                    web_data_handler.process_the_object(line)
             # --------------------- directory ---------------------
             else:
                 dir_parser = LogVariantDirectoryParser(data)
                 dir_parser.parse()
 
                 print(dir_parser.parsed_data)
+
+                for log in dir_parser.parsed_data:
+                    web_data_handler.output_path = VirusScannerCLI.CREATE_LOG_DIRECTORY(log)
+                    VirusScannerCLI.process_the_log_file(target, log, web_data_handler)
+
+
+
+
 
 
         # --------------------- target is file ---------------------
@@ -68,6 +74,14 @@ class VirusScannerCLI:
                 pass # log with file full path's
             else:
                 pass # dir variant/ files in dir
+
+    @staticmethod
+    def process_the_log_file(target, data, handler):
+        log_parser = LogFileParser(TargetWebDataValidator(target))
+        log_parser.parse(data)
+
+        for line in log_parser.matched_data:
+            handler.process_the_object(line)
 
 
 VirusScannerCLI()
