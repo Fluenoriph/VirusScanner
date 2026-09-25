@@ -15,8 +15,10 @@ from modules.data_validator.target_web_data_validator import TargetWebDataValida
 from modules.program_process.web_data_process_handler import WebDataProcessHandler
 from modules.program_process.file_process_handler import FileProcessHandler
 from modules.app_data import TARGET_FLAG, VARIANT_FLAG
+from modules.target_data_parser.file_variant_directory_parser import FileVariantDirectoryParser
 from modules.target_data_parser.log_file_parser import LogFileParser
 from modules.target_data_parser.log_variant_directory_parser import LogVariantDirectoryParser
+from modules.data_validator.file_validator import FileValidator
 
 
 class VirusScannerCLI:
@@ -38,7 +40,7 @@ class VirusScannerCLI:
 
         print("[green]> Scanning started ![/green]")
 
-        # --------------------- target is not file ---------------------
+        # --------------------- target is web data ---------------------
         if target is not TARGET_FLAG[3]:
             web_data_handler = WebDataProcessHandler(api_key, target, output, report)
             # --------------------- object ---------------------
@@ -47,37 +49,38 @@ class VirusScannerCLI:
             # --------------------- log ---------------------
             elif variant is VARIANT_FLAG[1]:
                 VirusScannerCLI.process_the_log_file(target, data, web_data_handler)
-
             # --------------------- directory ---------------------
             else:
                 dir_parser = LogVariantDirectoryParser(data)
                 dir_parser.parse()
 
-                print(dir_parser.parsed_data)
-
                 for log in dir_parser.parsed_data:
                     web_data_handler.output_path = VirusScannerCLI.CREATE_LOG_DIRECTORY(log)
-                    VirusScannerCLI.process_the_log_file(target, log, web_data_handler)
-
-
-
-
-
+                    VirusScannerCLI.process_the_log_file(TargetWebDataValidator(target),
+                                                         log, web_data_handler)
 
         # --------------------- target is file ---------------------
         else:
-            file_data_handler = FileProcessHandler(api_key)
+            file_data_handler = FileProcessHandler(api_key, target, output, report)
             # --------------------- object ---------------------
             if variant is VARIANT_FLAG[0]:
                 file_data_handler.process_the_object(data)
+            # --------------------- log ---------------------
             elif variant is VARIANT_FLAG[1]:
-                pass # log with file full path's
+            # log with file full path's
+                VirusScannerCLI.process_the_log_file(FileValidator(), data, file_data_handler)
+            # --------------------- directory ---------------------
             else:
-                pass # dir variant/ files in dir
+            # dir variant / files in dir
+                dir_parser = FileVariantDirectoryParser(data)
+                dir_parser.parse()
+
+                for file in dir_parser.parsed_data:
+                    file_data_handler.process_the_object(file)
 
     @staticmethod
-    def process_the_log_file(target, data, handler):
-        log_parser = LogFileParser(TargetWebDataValidator(target))
+    def process_the_log_file(validator, data, handler):
+        log_parser = LogFileParser(validator)
         log_parser.parse(data)
 
         for line in log_parser.matched_data:

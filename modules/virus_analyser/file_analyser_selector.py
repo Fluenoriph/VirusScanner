@@ -10,35 +10,28 @@ class FileAnalyserSelector:
     BIG_FILE_SIZE_THRESHOLD = 209715200
 
     def __init__(self):
-        self._result = None
+        self._analyser = None
 
     @property
-    def result(self):
-        return self._result
+    def analyser(self):
+        return self._analyser
 
-    @result.setter
-    def result(self, value):
-        self._result = value
+    @analyser.setter
+    def analyser(self, value):
+        self._analyser = value
 
     def select(self, file):
-        try:
-            size = os.path.getsize(file)
-        except OSError:
-            self.result = ProcessCode.FILE_NOT_FOUND
+        size = os.path.getsize(file)
 
-            return False
+        if size < FileAnalyserSelector.SMALL_FILE_SIZE_THRESHOLD:
+            self.analyser = SmallFileAnalyser()
+            self.analyser.data_for_analysis = file
+
+            return True
+        elif size < FileAnalyserSelector.BIG_FILE_SIZE_THRESHOLD:
+            self.analyser = BigFileAnalyser()
+            self.analyser.data_for_analysis = file
+
+            return True
         else:
-            if size < FileAnalyserSelector.SMALL_FILE_SIZE_THRESHOLD:
-                self.result = SmallFileAnalyser()
-                self.result.data_for_analysis = file
-
-                return True
-            elif size < FileAnalyserSelector.BIG_FILE_SIZE_THRESHOLD:
-                self.result = BigFileAnalyser()
-                self.result.data_for_analysis = file
-
-                return True
-            else:
-                self.result = ProcessCode.FILE_TOO_LARGE
-
-                return False
+            return False

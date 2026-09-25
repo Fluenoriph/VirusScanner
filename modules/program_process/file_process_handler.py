@@ -1,28 +1,36 @@
+from modules.data_validator.file_validator import FileValidator
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
 from modules.virus_analyser.file_analyser_selector import FileAnalyserSelector
 
 
 class FileProcessHandler(BaseProgramProcessHandler):
-    def __init__(self, api_key):
-        super().__init__(api_key)
+    def __init__(self, api_key, target_flag, output_path, report_file_type):
+        super().__init__(api_key, target_flag, output_path, report_file_type)
 
     def process_the_object(self, data):
-        file_size_selector = FileAnalyserSelector()
+        validator = FileValidator()
 
-        if file_size_selector.select(data):
-            analyser = file_size_selector.result
-            analyser.api_key = self.api_key
+        if validator.validate(data):
+            file_size_selector = FileAnalyserSelector()
 
-            result_payload = self.process_the_analysis(analyser)
+            if file_size_selector.select(data):
+                file_analyser = file_size_selector.analyser
+                file_analyser.api_key = self.api_key
 
-            if result_payload is not False:
-                print(result_payload)
-                # generate report !
+                result_payload = self.process_the_analysis(file_analyser)
+
+                if result_payload is not False:
+                    print(result_payload)
+
+                    self.process_the_report(result_payload)
+                else:
+                    print('Error connection to Virus Total')
+                    return
+
             else:
-                print('Error connection to Virus Total')
+                print('File too large !')  # BAD ARGUMENT SIZE !
+                # write to program log !!
                 return
-
         else:
-            print(f"Error -- {file_size_selector.result}")  # BAD ARGUMENT !
-            # write to program log !!
+            print('File not found ! Bad argument !')
             return
