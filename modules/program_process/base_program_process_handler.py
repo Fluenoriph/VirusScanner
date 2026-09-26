@@ -15,8 +15,8 @@ class BaseProgramProcessHandler(abc.ABC):
     def __init__(self, api_key, target_flag, output_path, report_file_type):
         self.api_key = api_key
         self.target_flag = target_flag
-        Path.mkdir(output_path, exist_ok=True)
         self._output_path = output_path
+        Path.mkdir(self.output_path, exist_ok=True)
         self.report_file_type = report_file_type
 
     @property

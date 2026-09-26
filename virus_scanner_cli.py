@@ -22,7 +22,7 @@ from modules.data_validator.file_validator import FileValidator
 
 
 class VirusScannerCLI:
-    APP = Typer()
+    APP: Typer = Typer()
     REPORT_DIRECTORY = Path(os.path.join(os.getcwd(), 'reports'))
     CREATE_LOG_DIRECTORY = lambda log_path: os.path.join(VirusScannerCLI.REPORT_DIRECTORY,
                                                          (str(os.path.basename(str(os.path.splitext(log_path)[0])))))
@@ -36,7 +36,7 @@ class VirusScannerCLI:
                          target: Annotated[Literal['i', 'dm', 'u', 'f'], Argument()],
                          variant: Annotated[Literal['o', 'l', 'dr'], Argument()],
                          data: str, report: Annotated[Literal['html', 'csv', 'json'], Argument()],
-                         output: Annotated[str, Argument()] = str(REPORT_DIRECTORY)):
+                         output: Annotated[Path, Argument()] = REPORT_DIRECTORY):
 
         print("[green]> Scanning started ![/green]")
 
@@ -48,7 +48,7 @@ class VirusScannerCLI:
                 web_data_handler.process_the_object(data)
             # --------------------- log ---------------------
             elif variant is VARIANT_FLAG[1]:
-                VirusScannerCLI.process_the_log_file(target, data, web_data_handler)
+                VirusScannerCLI.process_the_log_file(TargetWebDataValidator(target), data, web_data_handler)
             # --------------------- directory ---------------------
             else:
                 dir_parser = LogVariantDirectoryParser(data)

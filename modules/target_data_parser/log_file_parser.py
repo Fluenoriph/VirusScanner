@@ -18,4 +18,4 @@ class LogFileParser:
                 match = self.target_data_validator.validate(clear_line)
 
                 if match:
-                    self._matched_data.append(clear_line)
+                    self.matched_data.append(clear_line)
