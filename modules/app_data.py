@@ -1,6 +1,8 @@
 import re
 
 
+API_URL = 'https://www.virustotal.com/api/v3'
+
 TARGET_FLAG = 'i', 'dm', 'u', 'f'
 
 TARGET_NAME = {

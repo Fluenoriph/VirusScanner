@@ -21,7 +21,7 @@ class AnalysesEndpointAnalyser(BaseAnalyser, abc.ABC):
             if self.check_bad_status_values(response_result_json):
                 if response_result.status_code == BaseAnalyser.SUCCESSFUL_CODE:
                     self.add_time()
-                    self.add_analysed_data_info(response_result_json)
+                    self.add_analysed_data_info(response_result_json) # ????
                     self.add_stats(response_result_json)
 
                     return True

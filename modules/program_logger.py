@@ -5,14 +5,14 @@ import logging
 
 class ProgramLogger:
     def __init__(self):
-        self._logger = logging.getLogger('ProgramLogger')
-        self.logger.setLevel(logging.INFO)
+        self._logger = logging.getLogger()
+        #self.logger.setLevel(logging.INFO)
 
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-        file_handler = logging.FileHandler(r'./program_log.log')
-        file_handler.setFormatter(formatter)
+        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+        handler = logging.FileHandler(r'./program_log.log')  # windows ?
+        handler.setFormatter(formatter)
 
-        self.logger.addHandler(file_handler)
+        self.logger.addHandler(handler)
 
     @property
     def logger(self):

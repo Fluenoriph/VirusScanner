@@ -1,7 +1,7 @@
 """
 Application name: Virus Scanner CLI
 Version: 1.0
-Date: .... 2026 г.
+Date: October 2026
 Author: Ivan Bogdanov
 Contacts: fluenoriph@gmail.com, fluenoriph@yandex.ru
 """
@@ -19,6 +19,7 @@ from modules.target_data_parser.file_variant_directory_parser import FileVariant
 from modules.target_data_parser.log_file_parser import LogFileParser
 from modules.target_data_parser.log_variant_directory_parser import LogVariantDirectoryParser
 from modules.data_validator.file_validator import FileValidator
+from modules.program_codes import ProgramCodes as pc
 
 
 class VirusScannerCLI:
@@ -38,7 +39,7 @@ class VirusScannerCLI:
                          data: str, report: Annotated[Literal['html', 'csv', 'json'], Argument()],
                          output: Annotated[Path, Argument()] = REPORT_DIRECTORY):
 
-        print("[green]> Scanning started ![/green]")
+        print(f'[green]> {pc.CODE_10} ![/green]\n')
 
         # --------------------- target is web data ---------------------
         if target is not TARGET_FLAG[3]:

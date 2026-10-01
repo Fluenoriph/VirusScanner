@@ -1,21 +1,22 @@
 import abc
 import requests
-from modules.app_data import STATS_KEY
+from rich import print
+from modules.app_data import STATS_KEY, API_URL
 from modules.real_time import CurrentTime
+from modules.program_logger import ProgramLogger
+from modules.program_codes import ProgramCodes as pc
 
 
 class BaseAnalyser(abc.ABC):
-    API_URL = 'https://www.virustotal.com/api/v3'
-    SUCCESSFUL_CODE = 200
+    logger = ProgramLogger()
 
     def __init__(self, target_flag):
         self.target_flag = target_flag
         self._api_key = None
         self._data_for_analysis = None
 
-        self.standard_request_get = lambda endpoint: requests.get(BaseAnalyser.API_URL + endpoint,
-                                                                  headers={ 'x-apikey': self.api_key })
         self.add_time = lambda: self.result_data.update({ 'analysis time': CurrentTime.get_current_time()})
+
         self.add_stats = lambda response_json: self.result_data.update(response_json['data']['attributes']
                                                                   [STATS_KEY[self.target_flag]])
 
@@ -52,11 +53,24 @@ class BaseAnalyser(abc.ABC):
     def check_bad_status_values(self, response_json):
         stats = response_json['data']['attributes'][STATS_KEY[self.target_flag]]
 
-        test_result = 0
+        virus_engines_test_count = 0
         for value in stats.values():
-            test_result += value
+            virus_engines_test_count += value
 
-        if test_result != 0:
+        if virus_engines_test_count != 0:
+            BaseAnalyser.logger.logger.error(pc.CODE_20)
+
             return True
         else:
             return False
+
+    def get_standard_request(self, endpoint):
+        response = requests.get(API_URL + endpoint, headers={ 'x-apikey': self.api_key })
+
+        if response.status_code == pc.CODE_200:
+            return response.json()
+        else:
+            BaseAnalyser.logger.logger.error(pc.CODE_21)
+            print(f'[red]> {pc.CODE_21} ![/red]\n')
+
+            return None
