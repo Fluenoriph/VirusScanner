@@ -31,7 +31,7 @@ class BigFileAnalyser(BaseAnalyser):
 
                 if self.check_bad_status_values(response_analysis_result_json):
                     if response_analysis_result.status_code == BaseAnalyser.SUCCESSFUL_CODE:
-                        self.add_time()
+                        self.add_current_time()
                         self.add_analysed_data_info(response_analysis_result_json)
                         self.add_stats(response_analysis_result_json)
 

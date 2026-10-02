@@ -7,13 +7,13 @@ class DirectEndpointAnalyser(BaseAnalyser):
         super().__init__(target_flag)
 
     def analyse(self):
-        response = self.get_standard_request(ENDPOINT[self.target_flag] + self.data_for_analysis)
+        response_json = self.get_standard_request(ENDPOINT[self.target_flag] + self.data_for_analysis)
 
-        if response is not None:
-            if self.check_bad_status_values(response):
-                self.add_time()
-                self.add_analysed_data_info(response)
-                self.add_stats(response)
+        if response_json is not None:
+            if self.check_bad_status_values(response_json):
+                self.add_current_time()
+                self.add_analysed_data_info(response_json)
+                self.add_stats(response_json)
 
                 return True
 

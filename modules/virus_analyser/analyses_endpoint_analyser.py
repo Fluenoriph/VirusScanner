@@ -11,29 +11,24 @@ class AnalysesEndpointAnalyser(BaseAnalyser, abc.ABC):
         pass
 
     def analyse(self):
-        response_id = self.get_data_id()
-        response_id_json = response_id.json()
+        response_json_id = self.get_data_id()
 
-        if response_id.status_code == BaseAnalyser.SUCCESSFUL_CODE:
-            response_result = self.standard_request_get('/analyses/' + response_id_json['data']['id'])
-            response_result_json = response_result.json()
+        if response_json_id is not None:
+            response_json_result = self.get_standard_request('/analyses/' + response_json_id['data']['id'])
 
-            if self.check_bad_status_values(response_result_json):
-                if response_result.status_code == BaseAnalyser.SUCCESSFUL_CODE:
-                    self.add_time()
-                    self.add_analysed_data_info(response_result_json) # ????
-                    self.add_stats(response_result_json)
+            if response_json_result is not None:
+                if self.check_bad_status_values(response_json_result):
+                    self.add_current_time()
+                    self.add_analysed_data_info(response_json_result)
+                    self.add_stats(response_json_result)
 
                     return True
-                else:
-                    self.result_data.update(response_result_json)
 
+                else:
                     return False
 
             else:
                 return False
 
         else:
-            self.result_data.update(response_id_json)
-
             return False

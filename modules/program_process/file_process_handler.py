@@ -1,6 +1,10 @@
+from rich import print
 from modules.data_validator.file_validator import FileValidator
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
 from modules.virus_analyser.file_analyser_selector import FileAnalyserSelector
+from modules.program_logger import logger
+from modules.program_codes import CODE_21, CODE_11, CODE_26, CODE_25
+from modules.app_data import SUCCESS_COLOR, FAILURE_COLOR, WARNING_COLOR
 
 
 class FileProcessHandler(BaseProgramProcessHandler):
@@ -19,18 +23,24 @@ class FileProcessHandler(BaseProgramProcessHandler):
 
                 result_payload = self.process_the_analysis(file_analyser)
 
-                if result_payload is not False:
-                    print(result_payload)
+                if result_payload is not None:
+                    logger.logger.info(f'{CODE_11}--[{data}]')
+                    print(f'\n[{SUCCESS_COLOR}]> {CODE_11} ![/{SUCCESS_COLOR}]')
 
                     self.process_the_report(result_payload)
                 else:
-                    print('Error connection to Virus Total')
+                    logger.logger.critical(CODE_21)
+                    print(f'\n[{FAILURE_COLOR}]> {CODE_21} ![/{FAILURE_COLOR}]')
+
                     return
 
             else:
-                print('File too large !')  # BAD ARGUMENT SIZE !
-                # write to program log !!
+                logger.logger.warning(f'{CODE_26}--[{data}]')
+                print(f'\n[{WARNING_COLOR}]> {CODE_26} ![/{WARNING_COLOR}]')
+
                 return
         else:
-            print('File not found ! Bad argument !')
+            logger.logger.error(CODE_25)
+            print(f'\n[{FAILURE_COLOR}]> {CODE_25} ![/{FAILURE_COLOR}]')
+
             return

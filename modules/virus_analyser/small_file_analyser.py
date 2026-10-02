@@ -1,5 +1,5 @@
 import requests
-from modules.app_data import TARGET_FLAG, ENDPOINT, TARGET_NAME
+from modules.app_data import TARGET_FLAG, ENDPOINT, TARGET_NAME, API_URL
 from modules.virus_analyser.base_analyser import BaseAnalyser
 from modules.virus_analyser.analyses_endpoint_analyser import AnalysesEndpointAnalyser
 
@@ -16,5 +16,7 @@ class SmallFileAnalyser(AnalysesEndpointAnalyser):
         with open(self.data_for_analysis, 'rb') as file:
             files = {TARGET_NAME[self.target_flag]: (self.data_for_analysis, file)}
 
-            return requests.post(BaseAnalyser.API_URL + ENDPOINT[self.target_flag][0],
-                                 headers={ 'x-apikey': self.api_key }, files=files)
+            response = requests.post(API_URL + ENDPOINT[self.target_flag][0],
+                                     headers={ 'x-apikey': self.api_key }, files=files)
+
+            return BaseAnalyser.check_response_status(response)

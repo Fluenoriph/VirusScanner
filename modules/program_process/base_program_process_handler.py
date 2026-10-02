@@ -2,16 +2,15 @@ import abc
 import time
 from pathlib import Path
 from requests.exceptions import SSLError
-from modules.app_data import REPORT_FILE_TYPE
+from modules.app_data import REPORT_FILE_TYPE, REQUEST_REPEAT_COUNT, DELAY_TO_AGAIN_REQUEST
 from modules.report_generator.csv_report_generator import CsvReportGenerator
 from modules.report_generator.html_report_generator import HtmlReportGenerator
 from modules.report_generator.json_report_generator import JsonReportGenerator
+from modules.program_logger import logger
+from modules.program_codes import CODE_23
 
 
 class BaseProgramProcessHandler(abc.ABC):
-    REQUEST_REPEAT_COUNT = 10
-    DELAY_TO_AGAIN_REQUEST = 3
-
     def __init__(self, api_key, target_flag, output_path, report_file_type):
         self.api_key = api_key
         self.target_flag = target_flag
@@ -33,24 +32,20 @@ class BaseProgramProcessHandler(abc.ABC):
 
     @staticmethod
     def process_the_analysis(analyser_type):
-        for _ in range(BaseProgramProcessHandler.REQUEST_REPEAT_COUNT):
+        for _ in range(REQUEST_REPEAT_COUNT):
             try:
                 if analyser_type.analyse():
-
-                    print("Result is OK !")  # logging ! Error code ?
-
                     return analyser_type.result_data
                 else:
-                    print("Result is NOT OK !")
-
-                    time.sleep(BaseProgramProcessHandler.REQUEST_REPEAT_COUNT)
+                    time.sleep(DELAY_TO_AGAIN_REQUEST)
 
                     continue
             except SSLError:
-                print('SSL Error')  # logging
-                return False
+                logger.logger.error(CODE_23)
 
-        return False
+                return None
+
+        return None
 
     def process_the_report(self, data):
         if self.report_file_type is REPORT_FILE_TYPE[0]:

@@ -1,21 +1,19 @@
 import abc
 import requests
 from rich import print
-from modules.app_data import STATS_KEY, API_URL
+from modules.app_data import STATS_KEY, API_URL, FAILURE_COLOR
 from modules.real_time import CurrentTime
-from modules.program_logger import ProgramLogger
-from modules.program_codes import ProgramCodes as pc
+from modules.program_logger import logger
+from modules.program_codes import CODE_20, CODE_21, CODE_200
 
 
 class BaseAnalyser(abc.ABC):
-    logger = ProgramLogger()
-
     def __init__(self, target_flag):
         self.target_flag = target_flag
         self._api_key = None
         self._data_for_analysis = None
 
-        self.add_time = lambda: self.result_data.update({ 'analysis time': CurrentTime.get_current_time()})
+        self.add_current_time = lambda: self.result_data.update({'analysis time': CurrentTime.get_current_time()})
 
         self.add_stats = lambda response_json: self.result_data.update(response_json['data']['attributes']
                                                                   [STATS_KEY[self.target_flag]])
@@ -50,6 +48,16 @@ class BaseAnalyser(abc.ABC):
     def add_analysed_data_info(self, response):
         pass
 
+    @staticmethod
+    def check_response_status(response):
+        if response.status_code == CODE_200:
+            return response.json()
+        else:
+            logger.logger.error(CODE_21)
+            print(f'\n[{FAILURE_COLOR}]> {CODE_21}: {response.status_code}[/{FAILURE_COLOR}]')
+
+            return None
+
     def check_bad_status_values(self, response_json):
         stats = response_json['data']['attributes'][STATS_KEY[self.target_flag]]
 
@@ -58,7 +66,7 @@ class BaseAnalyser(abc.ABC):
             virus_engines_test_count += value
 
         if virus_engines_test_count != 0:
-            BaseAnalyser.logger.logger.error(pc.CODE_20)
+            logger.logger.error(CODE_20)
 
             return True
         else:
@@ -67,10 +75,4 @@ class BaseAnalyser(abc.ABC):
     def get_standard_request(self, endpoint):
         response = requests.get(API_URL + endpoint, headers={ 'x-apikey': self.api_key })
 
-        if response.status_code == pc.CODE_200:
-            return response.json()
-        else:
-            BaseAnalyser.logger.logger.error(pc.CODE_21)
-            print(f'[red]> {pc.CODE_21} ![/red]\n')
-
-            return None
+        return BaseAnalyser.check_response_status(response)

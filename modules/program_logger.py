@@ -17,3 +17,5 @@ class ProgramLogger:
     @property
     def logger(self):
         return self._logger
+
+logger = ProgramLogger()

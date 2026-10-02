@@ -11,6 +11,7 @@ TARGET_NAME = {
     TARGET_FLAG[2]: 'url',
     TARGET_FLAG[3]: 'file'
 }
+
 # object, log, directory
 VARIANT_FLAG = 'o', 'l', 'dr'
 
@@ -40,4 +41,16 @@ RGX_PATTERN = {
     TARGET_FLAG[2]: re.compile(r'https?://(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)')
 }
 
+REQUEST_REPEAT_COUNT = 10
+DELAY_TO_AGAIN_REQUEST = 3
+
 REPORT_FILE_TYPE = 'html', 'csv', 'json'
+
+# bytes
+SMALL_FILE_SIZE_THRESHOLD = 33554432
+BIG_FILE_SIZE_THRESHOLD = 209715200
+
+SUCCESS_COLOR = 'green'
+FAILURE_COLOR = 'red'
+WARNING_COLOR = 'yellow'
+INFO_COLOR = 'cyan'

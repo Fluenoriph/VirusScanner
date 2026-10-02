@@ -1,5 +1,5 @@
 import requests
-from modules.app_data import TARGET_FLAG, ENDPOINT, TARGET_NAME
+from modules.app_data import TARGET_FLAG, ENDPOINT, TARGET_NAME, API_URL
 from modules.virus_analyser.analyses_endpoint_analyser import AnalysesEndpointAnalyser
 from modules.virus_analyser.base_analyser import BaseAnalyser
 
@@ -12,5 +12,7 @@ class UrlAnalyser(AnalysesEndpointAnalyser):
         self.result_data.update({TARGET_NAME[self.target_flag]: response['meta']['url_info']['url']})
 
     def get_data_id(self):
-        return requests.post(BaseAnalyser.API_URL + ENDPOINT[self.target_flag], headers={'x-apikey': self.api_key},
-                             data={TARGET_NAME[self.target_flag]: self.data_for_analysis})
+        response = requests.post(API_URL + ENDPOINT[self.target_flag], headers={'x-apikey': self.api_key},
+                                 data={TARGET_NAME[self.target_flag]: self.data_for_analysis})
+
+        return BaseAnalyser.check_response_status(response)

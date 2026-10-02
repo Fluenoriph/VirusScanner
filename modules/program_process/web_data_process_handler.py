@@ -1,8 +1,11 @@
+from rich import print
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
-from modules.app_data import TARGET_FLAG
+from modules.app_data import TARGET_FLAG, SUCCESS_COLOR, FAILURE_COLOR
 from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
 from modules.virus_analyser.url_analyser import UrlAnalyser
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
+from modules.program_logger import logger
+from modules.program_codes import CODE_21, CODE_24, CODE_11
 
 
 class WebDataProcessHandler(BaseProgramProcessHandler):
@@ -20,20 +23,24 @@ class WebDataProcessHandler(BaseProgramProcessHandler):
 
         if validator.validate(data):
             analyser = WebDataProcessHandler.WEB_DATA_ANALYSER[self.target_flag]
-
             analyser.api_key = self.api_key
             analyser.data_for_analysis = data
 
             result_payload = self.process_the_analysis(analyser)
 
-            if result_payload is not False:
-                print(result_payload)
+            if result_payload is not None:
+                logger.logger.info(f'{CODE_11}--[{data}]')
+                print(f'\n[{SUCCESS_COLOR}]> {CODE_11} ![/{SUCCESS_COLOR}]')
 
                 self.process_the_report(result_payload)
             else:
-                print('Error connection to Virus Total')
+                logger.logger.critical(CODE_21)
+                print(f'\n[{FAILURE_COLOR}]> {CODE_21} ![/{FAILURE_COLOR}]')
+
                 return
 
         else:
-            print('BAD ARGUMENT')
+            logger.logger.error(f'{CODE_24}--[{data}]')
+            print(f'\n[{FAILURE_COLOR}]> {CODE_24} ![/{FAILURE_COLOR}]')
+
             return
