@@ -12,7 +12,7 @@ class ProgramLogger:
         handler = logging.FileHandler(r'./program_log.log')  # windows ?
         handler.setFormatter(formatter)
 
-        self.logger.addHandler(handler)
+        self._logger.addHandler(handler)
 
     @property
     def logger(self):

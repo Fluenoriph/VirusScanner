@@ -14,12 +14,13 @@ from pathlib import Path
 from modules.data_validator.target_web_data_validator import TargetWebDataValidator
 from modules.program_process.web_data_process_handler import WebDataProcessHandler
 from modules.program_process.file_process_handler import FileProcessHandler
-from modules.app_data import TARGET_FLAG, VARIANT_FLAG, SUCCESS_COLOR
+from modules.app_data import TARGET_FLAG, VARIANT_FLAG, INFO_COLOR
 from modules.target_data_parser.file_variant_directory_parser import FileVariantDirectoryParser
 from modules.target_data_parser.log_file_parser import LogFileParser
 from modules.target_data_parser.log_variant_directory_parser import LogVariantDirectoryParser
 from modules.data_validator.file_validator import FileValidator
 from modules.program_codes import CODE_10
+from modules.program_logger import logger
 
 
 class VirusScannerCLI:
@@ -39,7 +40,8 @@ class VirusScannerCLI:
                          data: str, report: Annotated[Literal['html', 'csv', 'json'], Argument()],
                          output: Annotated[Path, Argument()] = REPORT_DIRECTORY):
 
-        print(f'\n[{SUCCESS_COLOR}]> {CODE_10} ![/{SUCCESS_COLOR}]')
+        print(f'\n[{INFO_COLOR}]> {CODE_10} ![/{INFO_COLOR}]')
+        logger.logger.info(CODE_10)
 
         # --------------------- target is web data ---------------------
         if target is not TARGET_FLAG[3]:

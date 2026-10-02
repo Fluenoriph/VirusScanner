@@ -66,10 +66,10 @@ class BaseAnalyser(abc.ABC):
             virus_engines_test_count += value
 
         if virus_engines_test_count != 0:
-            logger.logger.error(CODE_20)
-
             return True
         else:
+            logger.logger.error(CODE_20)
+
             return False
 
     def get_standard_request(self, endpoint):

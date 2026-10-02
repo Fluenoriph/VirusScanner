@@ -2,12 +2,12 @@ import abc
 import time
 from pathlib import Path
 from requests.exceptions import SSLError
-from modules.app_data import REPORT_FILE_TYPE, REQUEST_REPEAT_COUNT, DELAY_TO_AGAIN_REQUEST
+from modules.app_data import REPORT_FILE_TYPE, REQUEST_REPEAT_COUNT, DELAY_TO_AGAIN_REQUEST, INFO_COLOR
 from modules.report_generator.csv_report_generator import CsvReportGenerator
 from modules.report_generator.html_report_generator import HtmlReportGenerator
 from modules.report_generator.json_report_generator import JsonReportGenerator
 from modules.program_logger import logger
-from modules.program_codes import CODE_23
+from modules.program_codes import CODE_23, CODE_12
 
 
 class BaseProgramProcessHandler(abc.ABC):
@@ -51,9 +51,14 @@ class BaseProgramProcessHandler(abc.ABC):
         if self.report_file_type is REPORT_FILE_TYPE[0]:
             report = HtmlReportGenerator(data, self.output_path, self.target_flag)
             report.generate()
+            logger.logger.info(f'{self.report_file_type.upper()} {CODE_12}')
+
         elif self.report_file_type is REPORT_FILE_TYPE[1]:
             report = CsvReportGenerator(data, self.output_path, self.target_flag)
             report.generate()
+            logger.logger.info(f'{self.report_file_type.upper()} {CODE_12}')
+
         elif self.report_file_type is REPORT_FILE_TYPE[2]:
             report = JsonReportGenerator(data, self.output_path, self.target_flag)
             report.generate()
+            logger.logger.info(f'{self.report_file_type.upper()} {CODE_12}')
