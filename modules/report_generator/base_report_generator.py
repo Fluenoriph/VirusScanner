@@ -3,8 +3,8 @@
 import abc
 import os
 from pathlib import Path
-from modules.app_data import TARGET_NAME
 from modules.real_time import CurrentTime
+from modules.app_data import TARGET_NAME
 
 
 class BaseReportGenerator(abc.ABC):

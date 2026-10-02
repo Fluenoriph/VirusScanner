@@ -3,19 +3,11 @@
 import logging
 
 
-class ProgramLogger:
-    def __init__(self):
-        self._logger = logging.getLogger()
-        #self.logger.setLevel(logging.INFO)
-
-        formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-        handler = logging.FileHandler(r'./program_log.log')  # windows ?
-        handler.setFormatter(formatter)
-
-        self._logger.addHandler(handler)
-
-    @property
-    def logger(self):
-        return self._logger
-
-logger = ProgramLogger()
+logging.basicConfig(
+    filename='program_log.log',
+    level=logging.INFO,
+    filemode='a',
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+    encoding='utf-8'
+)

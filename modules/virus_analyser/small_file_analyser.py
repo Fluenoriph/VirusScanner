@@ -1,4 +1,5 @@
 import requests
+import os
 from modules.app_data import TARGET_FLAG, ENDPOINT, TARGET_NAME, API_URL
 from modules.virus_analyser.base_analyser import BaseAnalyser
 from modules.virus_analyser.analyses_endpoint_analyser import AnalysesEndpointAnalyser
@@ -9,8 +10,9 @@ class SmallFileAnalyser(AnalysesEndpointAnalyser):
         super().__init__(target_flag)
 
     def add_analysed_data_info(self, response):
-        self.result_data.update({ 'sha256': response['meta']['file_info']['sha256']})
-        self.result_data.update({ 'size': response['meta']['file_info']['size']})
+        self.result_data.update({ 'file': os.path.split(self.data_for_analysis)[1] })
+        self.result_data.update({ 'sha256': response['meta']['file_info']['sha256'] })
+        self.result_data.update({ 'size': response['meta']['file_info']['size'] })
 
     def get_data_id(self):
         with open(self.data_for_analysis, 'rb') as file:

@@ -3,7 +3,7 @@ import requests
 from rich import print
 from modules.app_data import STATS_KEY, API_URL, FAILURE_COLOR
 from modules.real_time import CurrentTime
-from modules.program_logger import logger
+from modules.program_logger import logging
 from modules.program_codes import CODE_20, CODE_21, CODE_200
 
 
@@ -16,7 +16,7 @@ class BaseAnalyser(abc.ABC):
         self.add_current_time = lambda: self.result_data.update({'analysis time': CurrentTime.get_current_time()})
 
         self.add_stats = lambda response_json: self.result_data.update(response_json['data']['attributes']
-                                                                  [STATS_KEY[self.target_flag]])
+                                                           [STATS_KEY[self.target_flag]])
 
         self._result_data = {}
     
@@ -53,8 +53,8 @@ class BaseAnalyser(abc.ABC):
         if response.status_code == CODE_200:
             return response.json()
         else:
-            logger.logger.error(CODE_21)
-            print(f'\n[{FAILURE_COLOR}]> {CODE_21}: {response.status_code}[/{FAILURE_COLOR}]')
+            logging.error(f'{CODE_21}: {response.status_code}')
+            print(f'\n[{FAILURE_COLOR}]> {CODE_21} ![/{FAILURE_COLOR}]')
 
             return None
 
@@ -68,7 +68,7 @@ class BaseAnalyser(abc.ABC):
         if virus_engines_test_count != 0:
             return True
         else:
-            logger.logger.error(CODE_20)
+            logging.error(CODE_20)
 
             return False
 
