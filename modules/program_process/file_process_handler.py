@@ -35,7 +35,8 @@ class FileProcessHandler(BaseProgramProcessHandler):
                     self.process_the_report(result_payload)
 
                     logging.info(CODE_13)
-                    print(f'\n[{INFO_COLOR}]> {CODE_14} > [ {self.report_file} ][/{INFO_COLOR}]')
+                    print(f'\n[{INFO_COLOR}]> {CODE_14} >[/{INFO_COLOR}] '
+                          f'[{DATA_COLOR}][ {self.report_file} ][/{DATA_COLOR}]')
 
                 else:
                     logging.critical(CODE_21)

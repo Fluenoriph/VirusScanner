@@ -33,7 +33,7 @@ class VirusScannerCLI:
 
     @staticmethod
     @APP.command()
-    def analyse_the_data(api_key: str,
+    def analyse_the_data(key: str,
                          target: Annotated[Literal['i', 'dm', 'u', 'f'], Argument()],
                          variant: Annotated[Literal['o', 'l', 'dr'], Argument()],
                          data: str,
@@ -44,7 +44,7 @@ class VirusScannerCLI:
 
         # --- Анализируемые данные: IP, URL, Domain --------------------------------------------------------------------
         if target is not TARGET_FLAG[3]:
-            web_data_handler = WebDataProcessHandler(api_key, target, output, report)
+            web_data_handler = WebDataProcessHandler(key, target, output, report)
 
             # --- Единичный объект -------------------------------------------------------------------------------------
             if variant is VARIANT_FLAG[0]:
@@ -65,7 +65,7 @@ class VirusScannerCLI:
 
         # --- Анализируемые данные: файлы ------------------------------------------------------------------------------
         else:
-            file_data_handler = FileProcessHandler(api_key, target, output, report)
+            file_data_handler = FileProcessHandler(key, target, output, report)
 
             # --- Единичный файл ---------------------
             if variant is VARIANT_FLAG[0]:
