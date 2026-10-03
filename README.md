@@ -56,9 +56,19 @@ pip install -r requirements.txt
 ```
 7. Запустите утилиту:
 ```
-python virus_scanner_cli.py ********* i o 192.168.10.123 html
+python virus_scanner_cli.py YOUR_API_KEY i o 192.168.10.123 html
 ```
 ## Запуск в контейнере Docker
-
-
-
+```
+cd ./VirusScanner
+docker build -t virus-scanner .
+mkdir -p work
+```
+- Единичный объект
+```
+docker run --rm --user "$(id -u):$(id -g)" -v "$(pwd)/work:/work" virus-scanner YOUR_API_KEY i o 192.168.10.123 html
+```
+- Лог файл
+```
+docker run --rm --user "$(id -u):$(id -g)" -v "$(pwd)/work:/work" -v "/folder/subfolder:/data:ro" virus-scanner YOUR_API_KEY i l /data/log_file.log csv
+```
