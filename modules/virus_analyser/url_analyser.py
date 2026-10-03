@@ -1,3 +1,5 @@
+# 'url_analyser.py' - анализатор URL.
+
 import requests
 from modules.app_data import TARGET_FLAG, ENDPOINT, TARGET_NAME, API_URL
 from modules.virus_analyser.analyses_endpoint_analyser import AnalysesEndpointAnalyser
@@ -9,10 +11,10 @@ class UrlAnalyser(AnalysesEndpointAnalyser):
         super().__init__(target_flag)
 
     def add_analysed_data_info(self, response):
-        self.result_data.update({TARGET_NAME[self.target_flag]: response['meta']['url_info']['url']})
+        self.result_data.update({ TARGET_NAME[self.target_flag]: response['meta']['url_info']['url'] })
 
-    def get_data_id(self):
-        response = requests.post(API_URL + ENDPOINT[self.target_flag], headers={'x-apikey': self.api_key},
+    def get_analysed_data_id(self):
+        response = requests.post(API_URL + ENDPOINT[self.target_flag], headers={ 'x-apikey': self.api_key },
                                  data={TARGET_NAME[self.target_flag]: self.data_for_analysis})
 
         return BaseAnalyser.check_response_status(response)

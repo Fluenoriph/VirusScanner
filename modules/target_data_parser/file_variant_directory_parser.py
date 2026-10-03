@@ -1,3 +1,5 @@
+# 'file_variant_directory_parser.py' - парсер файлов в целевой директории.
+
 import os
 from modules.target_data_parser.base_directory_parser import BaseDirectoryParser
 

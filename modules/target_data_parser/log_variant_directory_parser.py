@@ -1,3 +1,5 @@
+# 'log_variant_directory_parser.py' - парсер файлов логов (txt & log) в целевой директории.
+
 import os
 from modules.target_data_parser.base_directory_parser import BaseDirectoryParser
 
@@ -9,6 +11,6 @@ class LogVariantDirectoryParser(BaseDirectoryParser):
     def parse(self):
         with os.scandir(self.path) as entries:
             for entry in entries:
-                if entry.is_file(follow_symlinks=False) and (entry.name.endswith(".txt")
-                                                             or entry.name.endswith(".log")):
+                if entry.is_file(follow_symlinks=False) and (entry.name.endswith('.txt')
+                                                             or entry.name.endswith('.log')):
                     self.parsed_data.append(entry.path)

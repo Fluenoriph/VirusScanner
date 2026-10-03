@@ -1,5 +1,7 @@
+# 'file_validator.py' - проверка валидности файла.
+
 import os
-from modules.data_validator.base_validator import BaseValidator
+from modules.target_data_validator.base_validator import BaseValidator
 
 
 class FileValidator(BaseValidator):

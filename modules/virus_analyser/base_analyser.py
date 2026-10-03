@@ -1,25 +1,26 @@
-import abc
+# 'base_analyser.py' - базовый класс для анализаторов данных посредством интеграции с Virus Total API v3.
+
+from abc import ABC, abstractmethod
 import requests
 from rich import print
 from modules.app_data import STATS_KEY, API_URL, FAILURE_COLOR
-from modules.real_time import CurrentTime
+from modules.real_time import get_current_time
 from modules.program_logger import logging
 from modules.program_codes import CODE_20, CODE_21, CODE_200
 
 
-class BaseAnalyser(abc.ABC):
+class BaseAnalyser(ABC):
     def __init__(self, target_flag):
         self.target_flag = target_flag
         self._api_key = None
         self._data_for_analysis = None
+        self._result_data = {}
 
-        self.add_current_time = lambda: self.result_data.update({'analysis time': CurrentTime.get_current_time()})
+        self.add_current_time = lambda: self.result_data.update({'analysis time': get_current_time()})
 
         self.add_stats = lambda response_json: self.result_data.update(response_json['data']['attributes']
                                                            [STATS_KEY[self.target_flag]])
 
-        self._result_data = {}
-    
     @property
     def api_key(self):
         return self._api_key
@@ -40,11 +41,11 @@ class BaseAnalyser(abc.ABC):
     def result_data(self):
         return self._result_data
 
-    @abc.abstractmethod
+    @abstractmethod
     def analyse(self):
         pass
 
-    @abc.abstractmethod
+    @abstractmethod
     def add_analysed_data_info(self, response):
         pass
 
@@ -58,7 +59,9 @@ class BaseAnalyser(abc.ABC):
 
             return None
 
-    def check_bad_status_values(self, response_json):
+    # Иногда, по неизвестным причинам, все счетчики возвращают нули в ответе, чего по логике не должно быть,
+    # поэтому делается проверка и повторяется запрос несколько раз, до должного ответа.
+    def check_null_status_values(self, response_json):
         stats = response_json['data']['attributes'][STATS_KEY[self.target_flag]]
 
         virus_engines_test_count = 0
@@ -68,7 +71,7 @@ class BaseAnalyser(abc.ABC):
         if virus_engines_test_count != 0:
             return True
         else:
-            logging.error(CODE_20)
+            logging.warning(CODE_20)
 
             return False
 

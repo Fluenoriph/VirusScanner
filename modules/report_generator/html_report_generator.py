@@ -1,3 +1,5 @@
+# 'html_report_generator.py' - класс для формирования отчета в формате HTML.
+
 from modules.report_generator.base_report_generator import BaseReportGenerator
 from modules.app_data import ANALYSIS_STATUS
 from modules.app_data import REPORT_FILE_TYPE
@@ -6,6 +8,7 @@ from modules.app_data import REPORT_FILE_TYPE
 class HtmlReportGenerator(BaseReportGenerator):
     def __init__(self, result_data, report_path, target_flag):
         super().__init__(result_data, report_path, target_flag)
+        self.report_file = self.create_report_file(REPORT_FILE_TYPE[0])
 
     def generate(self):
         total_count = 0
@@ -13,14 +16,14 @@ class HtmlReportGenerator(BaseReportGenerator):
             if status in self.result_data:
                 total_count += self.result_data[status]
 
-        rows = "\n".join(f"<tr><td>{key}</td><td>{value}</td></tr>"
+        rows = '\n'.join(f'<tr><td>{key}</td><td>{value}</td></tr>'
                          for key, value in self.result_data.items())
 
         html_content = f"""<!DOCTYPE html>
         <html lang="ru">
         <head>
         <meta charset="UTF-8">
-        <title>Отчёт анализа объекта: {self.target_object}</title>
+        <title>Object analysis report: {self.target_object}</title>
         <style>
             body {{ font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }}
             h1 {{ color: #333; }}
@@ -33,15 +36,15 @@ class HtmlReportGenerator(BaseReportGenerator):
         </style>
         </head>
         <body>
-            <h1>Отчёт анализа: {self.target_object}</h1>
-            <p>Дата анализа: {self.result_data['analysis time']}</p>
+            <h1>Analysis report: {self.target_object}</h1>
+            <p>Date of analysis: {self.result_data['analysis time']}</p>
             <table>
-                <tr><th>Параметр</th><th>Значение</th></tr>
+                <tr><th>Argument</th><th>Value</th></tr>
                 {rows}
             </table>
-            <p><strong>Всего проверок:</strong> {total_count}</p>
+            <p><strong>Total number of checks:</strong> {total_count}</p>
         </body>
         </html>"""
 
-        with open (self.create_report_file(REPORT_FILE_TYPE[0]), 'w', encoding='utf-8') as file:
+        with open (self.report_file, 'w', encoding='utf-8') as file:
             file.write(html_content)

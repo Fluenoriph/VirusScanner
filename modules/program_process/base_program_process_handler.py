@@ -1,4 +1,6 @@
-import abc
+# 'base_program_process_handler.py' - базовый класс для обработчиков логики программы.
+
+from abc import ABC, abstractmethod
 import time
 from pathlib import Path
 from requests.exceptions import SSLError
@@ -10,13 +12,14 @@ from modules.program_logger import logging
 from modules.program_codes import CODE_23, CODE_12
 
 
-class BaseProgramProcessHandler(abc.ABC):
+class BaseProgramProcessHandler(ABC):
     def __init__(self, api_key, target_flag, output_path, report_file_type):
         self.api_key = api_key
         self.target_flag = target_flag
-        self._output_path = output_path
-        Path.mkdir(self.output_path, exist_ok=True)
+        self._output_path = Path(output_path)
+        self.output_path.mkdir(parents=True, exist_ok=True)
         self.report_file_type = report_file_type
+        self.report_file = None
 
     @property
     def output_path(self):
@@ -26,7 +29,7 @@ class BaseProgramProcessHandler(abc.ABC):
     def output_path(self, value):
         self._output_path = value
 
-    @abc.abstractmethod
+    @abstractmethod
     def process_the_object(self, data):
         pass
 
@@ -51,14 +54,20 @@ class BaseProgramProcessHandler(abc.ABC):
         if self.report_file_type is REPORT_FILE_TYPE[0]:
             report = HtmlReportGenerator(result_payload, self.output_path, self.target_flag)
             report.generate()
-            logging.info(f'{self.report_file_type.upper()} {CODE_12}')
+
+            self.report_file = report.report_file
+            logging.info(f'{self.report_file_type.upper()} {CODE_12} - [{self.report_file}]')
 
         elif self.report_file_type is REPORT_FILE_TYPE[1]:
             report = CsvReportGenerator(result_payload, self.output_path, self.target_flag)
             report.generate()
-            logging.info(f'{self.report_file_type.upper()} {CODE_12}')
+
+            self.report_file = report.report_file
+            logging.info(f'{self.report_file_type.upper()} {CODE_12} - [{self.report_file}]')
 
         elif self.report_file_type is REPORT_FILE_TYPE[2]:
             report = JsonReportGenerator(result_payload, self.output_path, self.target_flag)
             report.generate()
-            logging.info(f'{self.report_file_type.upper()} {CODE_12}')
+
+            self.report_file = report.report_file
+            logging.info(f'{self.report_file_type.upper()} {CODE_12} - [{self.report_file}]')

@@ -1,4 +1,4 @@
-
+# 'program_codes.py' - коды работы программы.
 
 CODE_10 = 'Scanning started'
 CODE_11 = 'Scanning completed successfully'

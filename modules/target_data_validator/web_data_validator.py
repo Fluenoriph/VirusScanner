@@ -1,9 +1,11 @@
+# 'web_data_validator.py' - проверка валидности веб-данных (domain, url, ip address).
+
 import re
 from modules.app_data import RGX_PATTERN
-from modules.data_validator.base_validator import BaseValidator
+from modules.target_data_validator.base_validator import BaseValidator
 
 
-class TargetWebDataValidator(BaseValidator):
+class WebDataValidator(BaseValidator):
     def __init__(self, target_flag):
         self.rgx_pattern = RGX_PATTERN[target_flag]
 

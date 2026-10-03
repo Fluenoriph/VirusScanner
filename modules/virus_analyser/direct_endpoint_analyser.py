@@ -1,3 +1,8 @@
+"""
+'direct_endpoint_analyser.py' - анализатор по принципу прямого запроса на эндпоинт.
+По такому принципу анализируются IP адрес и доменное имя.
+"""
+
 from modules.virus_analyser.base_analyser import BaseAnalyser
 from modules.app_data import ENDPOINT, TARGET_NAME
 
@@ -10,7 +15,7 @@ class DirectEndpointAnalyser(BaseAnalyser):
         response_json = self.get_standard_request(ENDPOINT[self.target_flag] + self.data_for_analysis)
 
         if response_json is not None:
-            if self.check_bad_status_values(response_json):
+            if self.check_null_status_values(response_json):
                 self.add_current_time()
                 self.add_analysed_data_info(response_json)
                 self.add_stats(response_json)

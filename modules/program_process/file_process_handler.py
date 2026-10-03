@@ -1,5 +1,7 @@
+# 'file_process_handler.py' - обработчик логики программы если анализируемый объект это файл.
+
 from rich import print
-from modules.data_validator.file_validator import FileValidator
+from modules.target_data_validator.file_validator import FileValidator
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
 from modules.virus_analyser.file_analyser_selector import FileAnalyserSelector
 from modules.program_logger import logging
@@ -21,7 +23,7 @@ class FileProcessHandler(BaseProgramProcessHandler):
                 file_analyser = file_size_selector.analyser
                 file_analyser.api_key = self.api_key
 
-                logging.info(f'{CODE_10}--[{data}]')
+                logging.info(f'{CODE_10} - [{data}]')
                 result_payload = self.process_the_analysis(file_analyser)
 
                 if result_payload is not None:
@@ -33,7 +35,7 @@ class FileProcessHandler(BaseProgramProcessHandler):
                     self.process_the_report(result_payload)
 
                     logging.info(CODE_13)
-                    print(f'\n[{INFO_COLOR}]> {CODE_14} ![/{INFO_COLOR}]')
+                    print(f'\n[{INFO_COLOR}]> {CODE_14} > [ {self.report_file} ][/{INFO_COLOR}]')
 
                 else:
                     logging.critical(CODE_21)

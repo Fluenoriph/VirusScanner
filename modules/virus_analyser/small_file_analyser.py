@@ -1,3 +1,5 @@
+# 'small_file_analyser.py' - анализатор файлов менее 32 Мб.
+
 import requests
 import os
 from modules.app_data import TARGET_FLAG, ENDPOINT, TARGET_NAME, API_URL
@@ -14,7 +16,7 @@ class SmallFileAnalyser(AnalysesEndpointAnalyser):
         self.result_data.update({ 'sha256': response['meta']['file_info']['sha256'] })
         self.result_data.update({ 'size': response['meta']['file_info']['size'] })
 
-    def get_data_id(self):
+    def get_analysed_data_id(self):
         with open(self.data_for_analysis, 'rb') as file:
             files = {TARGET_NAME[self.target_flag]: (self.data_for_analysis, file)}
 

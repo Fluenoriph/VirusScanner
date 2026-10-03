@@ -1,3 +1,5 @@
+# 'app_data.py' - данные, константы, используемые в программе.
+
 import re
 
 
@@ -15,11 +17,11 @@ TARGET_NAME = {
 # object, log, directory
 VARIANT_FLAG = 'o', 'l', 'dr'
 
-ANALYSIS_STATUS = ('malicious', 'suspicious', 'undetected', 'harmless', 'timeout', 'confirmed-timeout',
-                   'failure', 'type-unsupported')
-
 DIRECT_ENDPOINT_STATS_KEY = 'last_analysis_stats'
 URL_AND_FILE_STATS_KEY = 'stats'
+
+ANALYSIS_STATUS = ('malicious', 'suspicious', 'undetected', 'harmless', 'timeout', 'confirmed-timeout',
+                   'failure', 'type-unsupported')
 
 STATS_KEY = {
     TARGET_FLAG[0]: DIRECT_ENDPOINT_STATS_KEY,
@@ -41,14 +43,14 @@ RGX_PATTERN = {
     TARGET_FLAG[2]: re.compile(r'https?://(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)')
 }
 
-REQUEST_REPEAT_COUNT = 10
+REQUEST_REPEAT_COUNT = 15
 DELAY_TO_AGAIN_REQUEST = 3
 
 REPORT_FILE_TYPE = 'html', 'csv', 'json'
 
 # bytes
 SMALL_FILE_SIZE_THRESHOLD = 33554432
-BIG_FILE_SIZE_THRESHOLD = 209715200
+LARGE_FILE_SIZE_THRESHOLD = 209715200
 
 SUCCESS_COLOR = 'green'
 FAILURE_COLOR = 'red'
