@@ -23,7 +23,7 @@ class DirectEndpointAnalyser(BaseAnalyser):
                 return True
 
             else:
-                return False
+                return None
 
         else:
             return False

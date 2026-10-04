@@ -4,6 +4,7 @@
 """
 
 from rich import print
+import sys
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
 from modules.app_data import TARGET_FLAG, SUCCESS_COLOR, FAILURE_COLOR, INFO_COLOR, DATA_COLOR
 from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
@@ -49,10 +50,10 @@ class WebDataProcessHandler(BaseProgramProcessHandler):
                 logging.critical(CODE_21)
                 print(f'\n[{FAILURE_COLOR}]> {CODE_21} ![/{FAILURE_COLOR}]')
 
-                return
+                sys.exit()
 
         else:
             logging.error(f'{CODE_24}--[{data}]')
-            print(f'\n[{FAILURE_COLOR}]> {CODE_24} ![/{FAILURE_COLOR}]')
+            print(f'\n[{FAILURE_COLOR}]> {CODE_24}: [ {data} ][/{FAILURE_COLOR}]')
 
-            return
+            sys.exit()

@@ -4,20 +4,16 @@ from abc import ABC, abstractmethod
 import os
 from pathlib import Path
 from modules.real_time import get_current_time
-from modules.app_data import TARGET_NAME
+from modules.app_data import TARGET_NAME, TARGET_FLAG
 
 
 class BaseReportGenerator(ABC):
     def __init__(self, result_data, report_path, target_flag):
         self.result_data = result_data
-        self.report_path = Path(report_path)
-        self.report_path.mkdir(parents=True, exist_ok=True)
-        self.target_object = self.result_data[TARGET_NAME[target_flag]]
+        self.report_path = report_path
+        self.target_flag = target_flag
+        self.target_object = self.result_data[TARGET_NAME[self.target_flag]]
         self._report_file = None
-
-        self.create_report_file = lambda file_type: os.path.join(self.report_path,
-                                                    f'{self.target_object}-report_'
-                                                    f'{get_current_time().replace(':', '-')}.{file_type}')
 
     @property
     def report_file(self):
@@ -30,3 +26,11 @@ class BaseReportGenerator(ABC):
     @abstractmethod
     def generate(self):
         pass
+
+    def create_report_file(self, file_type):
+        if self.target_flag is TARGET_FLAG[2]:
+            x = self.target_object.replace('/', '-')
+            self.target_object = x.replace(':', '-')
+
+        return os.path.join(self.report_path, f'{self.target_object}-report_'
+                            f'{get_current_time().replace(':', '-')}.{file_type}')

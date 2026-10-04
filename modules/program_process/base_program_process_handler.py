@@ -2,7 +2,8 @@
 
 from abc import ABC, abstractmethod
 import time
-from pathlib import Path
+
+from pygments.lexers import data
 from requests.exceptions import SSLError
 from modules.app_data import REPORT_FILE_TYPE, REQUEST_REPEAT_COUNT, DELAY_TO_AGAIN_REQUEST
 from modules.report_generator.csv_report_generator import CsvReportGenerator
@@ -16,8 +17,7 @@ class BaseProgramProcessHandler(ABC):
     def __init__(self, api_key, target_flag, output_path, report_file_type):
         self.api_key = api_key
         self.target_flag = target_flag
-        self._output_path = Path(output_path)
-        self.output_path.mkdir(parents=True, exist_ok=True)
+        self._output_path = output_path
         self.report_file_type = report_file_type
         self.report_file = None
 
@@ -37,16 +37,19 @@ class BaseProgramProcessHandler(ABC):
     def process_the_analysis(analyser_type):
         for _ in range(REQUEST_REPEAT_COUNT):
             try:
-                if analyser_type.analyse():
+                process_result = analyser_type.analyse()
+
+                if process_result:
                     return analyser_type.result_data
-                else:
+                elif process_result is None:
                     time.sleep(DELAY_TO_AGAIN_REQUEST)
 
                     continue
+                else:
+                    return None
+
             except SSLError:
                 logging.error(CODE_23)
-
-                return None
 
         return None
 

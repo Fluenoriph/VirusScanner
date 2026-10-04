@@ -1,6 +1,7 @@
 # 'file_process_handler.py' - обработчик логики программы если анализируемый объект это файл.
 
 from rich import print
+import sys
 from modules.target_data_validator.file_validator import FileValidator
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
 from modules.virus_analyser.file_analyser_selector import FileAnalyserSelector
@@ -42,16 +43,16 @@ class FileProcessHandler(BaseProgramProcessHandler):
                     logging.critical(CODE_21)
                     print(f'\n[{FAILURE_COLOR}]> {CODE_21} ![/{FAILURE_COLOR}]')
 
-                    return
+                    sys.exit()
 
             else:
                 logging.warning(f'{CODE_26}--[{data}]')
                 print(f'\n[{WARNING_COLOR}]> {CODE_26} ![/{WARNING_COLOR}]')
 
-                return
+                sys.exit()
 
         else:
-            logging.error(CODE_25)
-            print(f'\n[{FAILURE_COLOR}]> {CODE_25} ![/{FAILURE_COLOR}]')
+            logging.error(f'{CODE_25}--[{data}]')
+            print(f'\n[{FAILURE_COLOR}]> {CODE_25}: [ {data} ][/{FAILURE_COLOR}]')
 
-            return
+            sys.exit()

@@ -6,7 +6,7 @@ from rich import print
 from modules.app_data import STATS_KEY, API_URL, FAILURE_COLOR
 from modules.real_time import get_current_time
 from modules.program_logger import logging
-from modules.program_codes import CODE_20, CODE_21, CODE_200
+from modules.program_codes import CODE_20, CODE_21, CODE_200, CODE_401, CODE_28
 
 
 class BaseAnalyser(ABC):
@@ -53,9 +53,12 @@ class BaseAnalyser(ABC):
     def check_response_status(response):
         if response.status_code == CODE_200:
             return response.json()
+        elif response.status_code == CODE_401:
+            logging.error(CODE_28)
+
+            return None
         else:
             logging.error(f'{CODE_21}: {response.status_code}')
-            print(f'\n[{FAILURE_COLOR}]> {CODE_21} ![/{FAILURE_COLOR}]')
 
             return None
 

@@ -31,7 +31,7 @@ class AnalysesEndpointAnalyser(BaseAnalyser, ABC):
                     return True
 
                 else:
-                    return False
+                    return None
 
             else:
                 return False
