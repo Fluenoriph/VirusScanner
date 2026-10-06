@@ -7,7 +7,8 @@ from modules.program_process.base_program_process_handler import BaseProgramProc
 from modules.virus_analyser.file_analyser_selector import FileAnalyserSelector
 from modules.program_logger import logging
 from modules.program_codes import CODE_21, CODE_11, CODE_26, CODE_25, CODE_13, CODE_14, CODE_10
-from modules.app_data import SUCCESS_COLOR, FAILURE_COLOR, WARNING_COLOR, INFO_COLOR, DATA_COLOR, TARGET_NAME
+from modules.app_data import (SUCCESS_COLOR, FAILURE_COLOR, WARNING_COLOR, INFO_COLOR, DATA_COLOR,
+                              TARGET_NAME, LINE_SEPARATOR)
 
 
 class FileProcessHandler(BaseProgramProcessHandler):
@@ -37,7 +38,7 @@ class FileProcessHandler(BaseProgramProcessHandler):
 
                     logging.info(CODE_13)
                     print(f'\n[{INFO_COLOR}]> {CODE_14} >[/{INFO_COLOR}] '
-                          f'[{DATA_COLOR}][ {self.report_file} ][/{DATA_COLOR}]')
+                          f'[{DATA_COLOR}][ {self.report_file} ][/{DATA_COLOR}]{LINE_SEPARATOR}')
 
                 else:
                     logging.critical(CODE_21)

@@ -6,7 +6,7 @@
 from rich import print
 import sys
 from modules.program_process.base_program_process_handler import BaseProgramProcessHandler
-from modules.app_data import TARGET_FLAG, SUCCESS_COLOR, FAILURE_COLOR, INFO_COLOR, DATA_COLOR
+from modules.app_data import TARGET_FLAG, SUCCESS_COLOR, FAILURE_COLOR, INFO_COLOR, DATA_COLOR, LINE_SEPARATOR
 from modules.virus_analyser.direct_endpoint_analyser import DirectEndpointAnalyser
 from modules.virus_analyser.url_analyser import UrlAnalyser
 from modules.target_data_validator.web_data_validator import WebDataValidator
@@ -44,7 +44,7 @@ class WebDataProcessHandler(BaseProgramProcessHandler):
 
                 logging.info(CODE_13)
                 print(f'\n[{INFO_COLOR}]> {CODE_14} >[/{INFO_COLOR}] '
-                      f'[{DATA_COLOR}][ {self.report_file} ][/{DATA_COLOR}]')
+                      f'[{DATA_COLOR}][ {self.report_file} ][/{DATA_COLOR}]{LINE_SEPARATOR}')
 
             else:
                 logging.critical(CODE_21)

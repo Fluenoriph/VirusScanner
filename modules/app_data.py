@@ -57,3 +57,5 @@ FAILURE_COLOR = 'red'
 WARNING_COLOR = 'yellow'
 INFO_COLOR = 'cyan'
 DATA_COLOR = 'blue'
+
+LINE_SEPARATOR = '\n----------------------------------------------------------------------'
