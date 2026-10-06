@@ -26,7 +26,9 @@ from modules.program_logger import logging
 
 class VirusScannerCLI:
     APP: Typer = Typer()
+
     DEFAULT_REPORT_DIRECTORY = Path(os.path.join(os.getcwd(), 'reports'))
+    DEFAULT_REPORT_DIRECTORY.mkdir(exist_ok=True)
 
     def __init__(self):
         VirusScannerCLI.APP()
@@ -34,8 +36,8 @@ class VirusScannerCLI:
     @staticmethod
     @APP.command()
     def analyse_the_data(key: str,
-                         target: Annotated[Literal['i', 'dm', 'u', 'f'], Argument()],
-                         variant: Annotated[Literal['o', 'l', 'dr'], Argument()],
+                         target: Annotated[Literal['i', 'dn', 'u', 'f'], Argument()],
+                         variant: Annotated[Literal['o', 'l', 'd'], Argument()],
                          data: str,
                          report: Annotated[Literal['html', 'csv', 'json'], Argument()],
                          output: Annotated[Path, Argument()] = DEFAULT_REPORT_DIRECTORY):

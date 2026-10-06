@@ -5,9 +5,9 @@
 ### Параметры: `[ key target variant data report output ]`
 - key: API ключ Virus Total
 <br><br>
-- target: флаг анализируемого объекта (`"i" - ip адрес, "dm" - доменное имя, "u" - url адрес, "f" - файл`)
+- target: флаг анализируемого объекта (`"i" - ip адрес, "dn" - доменное имя, "u" - url адрес, "f" - файл`)
 <br><br>
-- variant: флаг варианта данных (`"o" - единичный объект, "l" - лог файл (.txt или .log), "dr" - директория, папка`)
+- variant: флаг варианта данных (`"o" - единичный объект, "l" - лог файл (.txt или .log), "d" - директория, папка`)
 <br><br>
 - data: анализируемые данные. Пример: `192.168.10.123; example.com; https://example.ru; C:\Folder\Subfolder\ | file.exe | log_file.txt | log_file.log` (если путь с пробелами, то берите в кавычки)
 <br><br>
@@ -71,18 +71,18 @@ mkdir -p work
 ```
 - Анализ единичного объекта
 ```
-docker run --rm --user "$(id -u):$(id -g)" -v "$(pwd)/work:/work" virus-scanner YOUR_API_KEY i o 192.168.10.123 html
+docker run --rm --user "$(id -u):$(id -g)" -e TZ="$(timedatectl show -p Timezone --value)" -v "$(pwd)/work:/work" virus-scanner YOUR_API_KEY i o 192.168.10.123 html
 ```
 - Анализ лог файла
 ```
-docker run --rm --user "$(id -u):$(id -g)" -v "$(pwd)/work:/work" -v "/folder/subfolder:/data:ro" virus-scanner YOUR_API_KEY i l /data/log_file.log csv
+docker run --rm --user "$(id -u):$(id -g)" -e TZ="$(timedatectl show -p Timezone --value)" -v "$(pwd)/work:/work" -v "/folder/subfolder:/data:ro" virus-scanner YOUR_API_KEY i l /data/log_file.log csv
 ```
 - Анализ папки с файлами или логами
 ```
-docker run --rm --user "$(id -u):$(id -g)" -v "$(pwd)/work:/work" -v "/home/me/samples:/home/me/samples:ro" virus-scanner YOUR_API_KEY f dr /home/me/samples html
+docker run --rm --user "$(id -u):$(id -g)" -e TZ="$(timedatectl show -p Timezone --value)" -v "$(pwd)/work:/work" -v "/home/me/samples:/home/me/samples:ro" virus-scanner YOUR_API_KEY f d /home/me/samples html
 ```
 - Свой путь отчетов
 ```
 mkdir -p /home/me/new_reports_folder
-docker run --rm --user "$(id -u):$(id -g)" -v "$(pwd)/work:/work" -v "/home/me/new_reports_folder:/reports" virus-scanner YOUR_API_KEY u o https://example.com json /reports
+docker run --rm --user "$(id -u):$(id -g)" -e TZ="$(timedatectl show -p Timezone --value)" -v "$(pwd)/work:/work" -v "/home/me/new_reports_folder:/reports" virus-scanner YOUR_API_KEY u o https://example.com json /reports
 ```

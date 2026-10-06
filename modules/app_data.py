@@ -5,17 +5,17 @@ import re
 
 API_URL = 'https://www.virustotal.com/api/v3'
 
-TARGET_FLAG = 'i', 'dm', 'u', 'f'
+TARGET_FLAG = 'i', 'dn', 'u', 'f'
 
 TARGET_NAME = {
     TARGET_FLAG[0]: 'ip',
-    TARGET_FLAG[1]: 'domain',
+    TARGET_FLAG[1]: 'domain_name',
     TARGET_FLAG[2]: 'url',
     TARGET_FLAG[3]: 'file'
 }
 
 # object, log, directory
-VARIANT_FLAG = 'o', 'l', 'dr'
+VARIANT_FLAG = 'o', 'l', 'd'
 
 DIRECT_ENDPOINT_STATS_KEY = 'last_analysis_stats'
 URL_AND_FILE_STATS_KEY = 'stats'
